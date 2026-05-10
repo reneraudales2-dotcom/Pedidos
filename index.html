@@ -58,10 +58,10 @@
         
         const formData = new FormData();
         // REEMPLAZA LOS ENTRY IDs con los que anotaste en el paso 1
-        formData.append("entry.111111", "Hamburguesa Especial"); 
-        formData.append("entry.222222", cantidad);
-        formData.append("entry.333333", refresco);
-        formData.append("entry.444444", orden);
+        formData.append("entry.894611180", producto); 
+        formData.append("entry.2098848368", cantidad);
+        formData.append("entry.157676011", refresco);
+        formData.append("entry.1139720569", orden);
 
         // Envío silencioso a Google Sheets
         fetch(URL_FORM, { method: "POST", body: formData, mode: "no-cors" });
