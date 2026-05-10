@@ -6,39 +6,36 @@
     }
 
     async function enviarPedido() {
-        // DEFINIMOS EL NOMBRE DEL PRODUCTO AQUÍ
-        const nombreProducto = "Hamburguesa Especial"; 
-        const refresco = document.getElementById('refresco').checked ? "SI" : "NO";
-        const orden = Math.floor(Math.random() * 90) + 10; 
+    // Definimos el nombre del producto para que el código no falle
+    const nombreProducto = "Hamburguesa Especial"; 
+    const cantidad = document.getElementById('qty').innerText;
+    const refresco = document.getElementById('refresco').checked ? "SI" : "NO";
+    const orden = Math.floor(Math.random() * 90) + 10; 
 
-        // URL limpia sin el /u/0/ para evitar errores de sesión
-        const URL_FORM = "https://docs.google.com/forms/d/e/1_XJMvDDZEmWozeLuPPqkpL7ytOV6bg8X5iH1beyeYWE/formResponse";
-        
-        const formData = new FormData();
-        
-        // Usamos la variable nombreProducto que definimos arriba
-        formData.append("entry.894611180", nombreProducto); 
-        formData.append("entry.2098848368", cantidad);
-        formData.append("entry.157676011", refresco);
-        formData.append("entry.1139720569", orden);
+    // URL corregida (sin el /u/0/)
+    const URL_FORM = "https://docs.google.com/forms/d/e/1_XJMvDDZEmWozeLuPPqkpL7ytOV6bg8X5iH1beyeYWE/formResponse";
+    
+    const formData = new FormData();
+    
+    // Asegúrate de que estos entry.XXXX coincidan con tu formulario
+    formData.append("entry.894611180", nombreProducto); 
+    formData.append("entry.2098848368", cantidad);
+    formData.append("entry.157676011", refresco);
+    formData.append("entry.1139720569", orden);
 
-        // Envío a Google Sheets
-        fetch(URL_FORM, { 
-            method: "POST", 
-            body: formData, 
-            mode: "no-cors" 
-        }).then(() => {
-            console.log("Datos enviados correctamente");
-        }).catch((error) => {
-            console.error("Error al enviar:", error);
-        });
+    // Envío silencioso
+    fetch(URL_FORM, { 
+        method: "POST", 
+        body: formData, 
+        mode: "no-cors" 
+    });
 
-        // Mostrar pantalla de éxito
-        document.getElementById('pantalla-pedido').style.display = "none";
-        document.getElementById('pantalla-exito').style.display = "block";
-        document.getElementById('num-orden').innerText = "#" + orden;
+    // Mostrar éxito en pantalla
+    document.getElementById('pantalla-pedido').style.display = "none";
+    document.getElementById('pantalla-exito').style.display = "block";
+    document.getElementById('num-orden').innerText = "#" + orden;
 
-        // Reiniciar después de 8 segundos para el siguiente cliente
-        setTimeout(() => { location.reload(); }, 8000);
-    }
+    // Reiniciar para el próximo cliente
+    setTimeout(() => { location.reload(); }, 8000);
+}
 </script>
