@@ -5,38 +5,36 @@
         document.getElementById('qty').innerText = cantidad;
     }
 
- async function enviarPedido() {
-    // 1. Definimos el nombre del producto (esto es lo que faltaba)
+async function enviarPedido() {
     const nombreProducto = "Hamburguesa Especial"; 
-    
     const cantidad = document.getElementById('qty').innerText;
     const refresco = document.getElementById('refresco').checked ? "SI" : "NO";
     const orden = Math.floor(Math.random() * 90) + 10; 
 
-    // 2. URL limpia para evitar errores de sesión
-    const URL_FORM = "https://docs.google.com/forms/d/e/1_XJMvDDZEmWozeLuPPqkpL7ytOV6bg8X5iH1beyeYWE/formResponse";
+    // URL LIMPIA (Importante para evitar el error de bloqueo)
+    const URL_FORM = "https://docs.google.com/forms/d/e/1FAIpQLScyLI2BxMEnxNHuJde4OIuVLgXH5787606617946523171/formResponse";
     
     const formData = new FormData();
     
-    // 3. Conectamos con tus IDs de Google Form
+    // Estos IDs ya son los correctos según tu imagen
     formData.append("entry.894611180", nombreProducto); 
     formData.append("entry.2098848368", cantidad);
     formData.append("entry.157676011", refresco);
     formData.append("entry.1139720569", orden);
 
-    // Enviar los datos al Excel de forma invisible
+    // Envío silencioso
     fetch(URL_FORM, { 
         method: "POST", 
         body: formData, 
         mode: "no-cors" 
     });
 
-    // Cambiar visualmente a pantalla de éxito
+    // Cambiar a pantalla de éxito
     document.getElementById('pantalla-pedido').style.display = "none";
     document.getElementById('pantalla-exito').style.display = "block";
     document.getElementById('num-orden').innerText = "#" + orden;
 
-    // Reiniciar para el siguiente cliente en 8 segundos
+    // Reiniciar en 8 segundos
     setTimeout(() => { location.reload(); }, 8000);
 }
 </script>
