@@ -5,26 +5,26 @@
         document.getElementById('qty').innerText = cantidad;
     }
 
-  async function enviarPedido() {
-    // 1. Definimos el nombre del producto (esto faltaba en tu código)
+ async function enviarPedido() {
+    // 1. Definimos el nombre del producto (esto es lo que faltaba)
     const nombreProducto = "Hamburguesa Especial"; 
     
     const cantidad = document.getElementById('qty').innerText;
     const refresco = document.getElementById('refresco').checked ? "SI" : "NO";
     const orden = Math.floor(Math.random() * 90) + 10; 
 
-    // 2. Usamos la URL pública (sin el /u/0/)
+    // 2. URL limpia para evitar errores de sesión
     const URL_FORM = "https://docs.google.com/forms/d/e/1_XJMvDDZEmWozeLuPPqkpL7ytOV6bg8X5iH1beyeYWE/formResponse";
     
     const formData = new FormData();
     
-    // 3. Vinculamos los datos con tus Entry IDs
+    // 3. Conectamos con tus IDs de Google Form
     formData.append("entry.894611180", nombreProducto); 
     formData.append("entry.2098848368", cantidad);
     formData.append("entry.157676011", refresco);
     formData.append("entry.1139720569", orden);
 
-    // Enviar los datos
+    // Enviar los datos al Excel de forma invisible
     fetch(URL_FORM, { 
         method: "POST", 
         body: formData, 
@@ -36,7 +36,7 @@
     document.getElementById('pantalla-exito').style.display = "block";
     document.getElementById('num-orden').innerText = "#" + orden;
 
-    // Reiniciar para el siguiente cliente
+    // Reiniciar para el siguiente cliente en 8 segundos
     setTimeout(() => { location.reload(); }, 8000);
 }
 </script>
