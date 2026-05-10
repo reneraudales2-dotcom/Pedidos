@@ -6,35 +6,36 @@
     }
 
 async function enviarPedido() {
+    // Definimos el nombre del producto para que el código no falle
     const nombreProducto = "Hamburguesa Especial"; 
     const cantidad = document.getElementById('qty').innerText;
     const refresco = document.getElementById('refresco').checked ? "SI" : "NO";
     const orden = Math.floor(Math.random() * 90) + 10; 
 
-    // URL LIMPIA (Importante para evitar el error de bloqueo)
+    // URL LIMPIA: Hemos quitado el "/u/0/" para evitar errores de bloqueo por sesión
     const URL_FORM = "https://docs.google.com/forms/d/e/1FAIpQLScyLI2BxMEnxNHuJde4OIuVLgXH5787606617946523171/formResponse";
     
     const formData = new FormData();
     
-    // Estos IDs ya son los correctos según tu imagen
+    // Estos son los IDs que confirmamos en tus capturas de pantalla
     formData.append("entry.894611180", nombreProducto); 
     formData.append("entry.2098848368", cantidad);
     formData.append("entry.157676011", refresco);
     formData.append("entry.1139720569", orden);
 
-    // Envío silencioso
+    // Envío silencioso a Google Sheets
     fetch(URL_FORM, { 
         method: "POST", 
         body: formData, 
         mode: "no-cors" 
     });
 
-    // Cambiar a pantalla de éxito
+    // Cambiar visualmente a la pantalla de éxito
     document.getElementById('pantalla-pedido').style.display = "none";
     document.getElementById('pantalla-exito').style.display = "block";
     document.getElementById('num-orden').innerText = "#" + orden;
 
-    // Reiniciar en 8 segundos
+    // Reiniciar automáticamente después de 8 segundos para el siguiente cliente
     setTimeout(() => { location.reload(); }, 8000);
 }
 </script>
