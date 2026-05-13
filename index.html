@@ -3,51 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menú Bebidas Ágape</title>
+    <title>Menú Completo Ágape</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; margin: 0; padding-bottom: 120px; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; margin: 0; padding-bottom: 130px; }
         
-        /* Navegación de Categorías */
-        .tabs { display: flex; justify-content: center; background: white; padding: 15px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .tab-btn { border: none; background: #eee; padding: 12px 25px; margin: 0 10px; border-radius: 25px; cursor: pointer; font-weight: bold; font-size: 16px; }
-        .tab-btn.active { background: #e67e22; color: white; }
+        /* Navegación de Categorías Fija */
+        .tabs { 
+            display: flex; justify-content: center; background: #333; 
+            padding: 10px; position: sticky; top: 0; z-index: 1000; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2); overflow-x: auto;
+        }
+        .tab-btn { 
+            border: none; background: #444; color: white; padding: 12px 20px; 
+            margin: 0 5px; border-radius: 10px; cursor: pointer; white-space: nowrap;
+        }
+        .tab-btn.active { background: #e67e22; font-weight: bold; }
 
         /* Contenedor de productos */
-        .menu-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; padding: 20px; max-width: 1000px; margin: auto; }
-        .product-card { background: white; border-radius: 15px; padding: 15px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        .product-card img { width: 100%; border-radius: 10px; height: 150px; object-fit: cover; }
+        .menu-container { 
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 20px; padding: 20px; max-width: 1100px; margin: auto; 
+        }
+        .product-card { 
+            background: white; border-radius: 20px; padding: 15px; 
+            text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
+        }
+        .product-card img { width: 100%; border-radius: 15px; height: 180px; object-fit: cover; }
         
-        /* Mostrar/Ocultar secciones */
+        /* Control de Visibilidad */
         .seccion-productos { display: none; }
         .seccion-productos.active { display: grid; }
 
         .controls { display: flex; justify-content: center; align-items: center; gap: 15px; margin-top: 15px; }
-        .btn-qty { border: 1px solid #ddd; background: white; padding: 5px 15px; border-radius: 5px; cursor: pointer; }
+        .btn-qty { 
+            border: 1px solid #ddd; background: white; width: 40px; height: 40px; 
+            border-radius: 50%; cursor: pointer; font-size: 20px; 
+        }
 
-        /* Footer fijo */
-        .footer-order { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 20px; text-align: center; box-shadow: 0 -5px 10px rgba(0,0,0,0.05); }
-        .btn-confirm { background: #27ae60; color: white; border: none; padding: 15px 40px; font-size: 18px; border-radius: 30px; cursor: pointer; }
+        /* Footer con Botón de Confirmar */
+        .footer-order { 
+            position: fixed; bottom: 0; left: 0; right: 0; 
+            background: white; padding: 25px; text-align: center; 
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.1); z-index: 1000;
+        }
+        .btn-confirm { 
+            background: #27ae60; color: white; border: none; 
+            padding: 15px 60px; font-size: 20px; border-radius: 35px; 
+            cursor: pointer; font-weight: bold;
+        }
         
-        #pantalla-exito { display: none; text-align: center; padding: 50px; }
+        #pantalla-exito { display: none; text-align: center; padding: 60px 20px; }
+        .numero-orden { font-size: 100px; color: #27ae60; font-weight: bold; }
     </style>
 </head>
 <body>
 
 <div id="pantalla-pedido">
     <div class="tabs">
-        <button class="tab-btn active" onclick="mostrarSeccion('calientes', this)">☕ Bebidas Calientes</button>
+        <button class="tab-btn active" onclick="mostrarSeccion('comida', this)">🍔 Comida</button>
+        <button class="tab-btn" onclick="mostrarSeccion('calientes', this)">☕ Bebidas Calientes</button>
         <button class="tab-btn" onclick="mostrarSeccion('heladas', this)">🥤 Bebidas Heladas</button>
     </div>
 
-    <div id="calientes" class="seccion-productos active menu-container">
+    <div id="comida" class="seccion-productos active menu-container">
+        <div class="product-card">
+            <img src="https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=500" alt="Hamb">
+            <h3>Hamburguesa Especial</h3>
+            <p>L. 150.00</p>
+            <div class="controls">
+                <button class="btn-qty" onclick="cambiar('p1', -1)">-</button>
+                <b id="p1">0</b>
+                <button class="btn-qty" onclick="cambiar('p1', 1)">+</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500" alt="Pizza">
+            <h3>Pizza Personal</h3>
+            <p>L. 120.00</p>
+            <div class="controls">
+                <button class="btn-qty" onclick="cambiar('p2', -1)">-</button>
+                <b id="p2">0</b>
+                <button class="btn-qty" onclick="cambiar('p2', 1)">+</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="calientes" class="seccion-productos menu-container">
         <div class="product-card">
             <img src="https://images.unsplash.com/photo-1541167760496-162955ed8a9f?w=400" alt="Café">
             <h3>Café Americano</h3>
             <p>L. 35.00</p>
             <div class="controls">
-                <button class="btn-qty" onclick="cambiar('c1', -1)">-</button>
-                <b id="c1">0</b>
-                <button class="btn-qty" onclick="cambiar('c1', 1)">+</button>
+                <button class="btn-qty" onclick="cambiar('p3', -1)">-</button>
+                <b id="p3">0</b>
+                <button class="btn-qty" onclick="cambiar('p3', 1)">+</button>
             </div>
         </div>
         <div class="product-card">
@@ -55,94 +104,4 @@
             <h3>Cappuccino</h3>
             <p>L. 55.00</p>
             <div class="controls">
-                <button class="btn-qty" onclick="cambiar('c2', -1)">-</button>
-                <b id="c2">0</b>
-                <button class="btn-qty" onclick="cambiar('c2', 1)">+</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="heladas" class="seccion-productos menu-container">
-        <div class="product-card">
-            <img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400" alt="Iced Coffee">
-            <h3>Iced Coffee</h3>
-            <p>L. 65.00</p>
-            <div class="controls">
-                <button class="btn-qty" onclick="cambiar('h1', -1)">-</button>
-                <b id="h1">0</b>
-                <button class="btn-qty" onclick="cambiar('h1', 1)">+</button>
-            </div>
-        </div>
-        <div class="product-card">
-            <img src="https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400" alt="Smoothie">
-            <h3>Smoothie Frutas</h3>
-            <p>L. 75.00</p>
-            <div class="controls">
-                <button class="btn-qty" onclick="cambiar('h2', -1)">-</button>
-                <b id="h2">0</b>
-                <button class="btn-qty" onclick="cambiar('h2', 1)">+</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="footer-order">
-        <button class="btn-confirm" onclick="enviarPedido()">CONFIRMAR PEDIDO</button>
-    </div>
-</div>
-
-<div id="pantalla-exito">
-    <h1>¡Pedido Enviado!</h1>
-    <div style="font-size: 80px; color: #27ae60;" id="num-orden">#--</div>
-    <p>Preparamos tu bebida en breve.</p>
-</div>
-
-<script>
-    function mostrarSeccion(id, btn) {
-        // Ocultar todas las secciones
-        document.querySelectorAll('.seccion-productos').forEach(sec => sec.classList.remove('active'));
-        // Quitar estado activo de todos los botones
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        
-        // Mostrar la elegida
-        document.getElementById(id).classList.add('active');
-        btn.classList.add('active');
-    }
-
-    function cambiar(id, valor) {
-        let el = document.getElementById(id);
-        el.innerText = Math.max(0, parseInt(el.innerText) + valor);
-    }
-
-    async function enviarPedido() {
-        let detalle = "";
-        // Lista de IDs a revisar
-        const ids = {
-            'c1': 'Café Amer.', 'c2': 'Cappuccino',
-            'h1': 'Iced Coffee', 'h2': 'Smoothie'
-        };
-        
-        for (let id in ids) {
-            let cant = document.getElementById(id).innerText;
-            if(parseInt(cant) > 0) detalle += `${ids[id]} (${cant}) `;
-        }
-
-        if(detalle === "") return alert("Selecciona una bebida");
-
-        const orden = Math.floor(Math.random() * 90) + 10;
-        const URL_FORM = "https://docs.google.com/forms/d/1_XJMvDDZEmWozeLuPPqkpL7ytOV6bg8X5iH1beyeYWE/formResponse";
-        
-        const formData = new FormData();
-        formData.append("entry.894611180", detalle);
-        formData.append("entry.1139720569", orden);
-
-        fetch(URL_FORM, { method: "POST", body: formData, mode: "no-cors" });
-
-        document.getElementById('pantalla-pedido').style.display = "none";
-        document.getElementById('pantalla-exito').style.display = "block";
-        document.getElementById('num-orden').innerText = "#" + orden;
-
-        setTimeout(() => { location.reload(); }, 6000);
-    }
-</script>
-</body>
-</html>
+                <button class="
