@@ -3,86 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiosco de Pedidos</title>
+    <title>Menú Digital</title>
     <style>
-        body { font-family: sans-serif; text-align: center; background: #f4f4f4; margin: 0; padding: 20px; }
-        .card { background: white; border-radius: 15px; padding: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); max-width: 400px; margin: auto; }
-        .btn-qty { font-size: 24px; padding: 10px 20px; cursor: pointer; border-radius: 10px; border: 1px solid #ccc; background: white; }
-        .btn-confirm { background: #27ae60; color: white; border: none; padding: 20px; width: 100%; font-size: 20px; border-radius: 10px; cursor: pointer; margin-top: 20px; }
-        #pantalla-exito { display: none; }
-        .numero-orden { font-size: 100px; color: #27ae60; margin: 10px 0; }
-        img { width: 100%; border-radius: 10px; margin-bottom: 10px; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f2f5; margin: 0; padding: 20px; padding-bottom: 120px; }
+        h1 { color: #333; }
+        
+        /* Contenedor de productos en cuadrícula */
+        .menu-container { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 20px; 
+            max-width: 1000px; 
+            margin: auto; 
+        }
+
+        .product-card { 
+            background: white; 
+            border-radius: 20px; 
+            padding: 15px; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08); 
+            text-align: center;
+        }
+
+        .product-card img { width: 100%; border-radius: 15px; height: 180px; object-fit: cover; }
+        
+        .controls { display: flex; justify-content: center; align-items: center; gap: 15px; margin: 15px 0; }
+        .btn-qty { border: 1px solid #ddd; background: white; padding: 8px 15px; border-radius: 8px; font-size: 18px; cursor: pointer; }
+
+        /* Barra inferior fija para confirmar */
+        .footer-order {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            z-index: 100;
+        }
+
+        .btn-confirm { 
+            background: #27ae60; color: white; border: none; 
+            padding: 15px 50px; font-size: 20px; font-weight: bold;
+            border-radius: 30px; cursor: pointer; transition: 0.3s;
+        }
+        .btn-confirm:hover { background: #219150; transform: scale(1.05); }
+
+        #pantalla-exito { display: none; text-align: center; margin-top: 50px; }
+        .numero-orden { font-size: 80px; color: #27ae60; font-weight: bold; }
     </style>
 </head>
 <body>
 
-<div id="pantalla-pedido" class="card">
-    <h1>Menú</h1>
-    <img src="https://via.placeholder.com/300x200?text=Hamburguesa" alt="Hamburguesa">
-    <h2>Hamburguesa Especial</h2>
-    <p>L. 150.00</p>
+<div id="pantalla-pedido">
+    <h1 style="text-align:center">Menú Ágape</h1>
+    
+    <div class="menu-container">
+        <div class="product-card">
+            <img src="https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=500" alt="Hamburguesa">
+            <h2>Hamburguesa Especial</h2>
+            <p>L. 150.00</p>
+            <div class="controls">
+                <button class="btn-qty" onclick="cambiar('qty1', -1)">-</button>
+                <b id="qty1" class="cantidad">0</b>
+                <button class="btn-qty" onclick="cambiar('qty1', 1)">+</button>
+            </div>
+        </div>
 
-    <div>
-        <button class="btn-qty" onclick="cambiar(-1)">-</button>
-        <span id="qty" style="font-size: 30px; margin: 0 20px;">1</span>
-        <button class="btn-qty" onclick="cambiar(1)">+</button>
+        <div class="product-card">
+            <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500" alt="Pizza">
+            <h2>Pizza Personal</h2>
+            <p>L. 120.00</p>
+            <div class="controls">
+                <button class="btn-qty" onclick="cambiar('qty2', -1)">-</button>
+                <b id="qty2" class="cantidad">0</b>
+                <button class="btn-qty" onclick="cambiar('qty2', 1)">+</button>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <img src="https://images.unsplash.com/photo-1567234665766-4740a757e738?w=500" alt="Papas">
+            <h2>Papas Fritas</h2>
+            <p>L. 60.00</p>
+            <div class="controls">
+                <button class="btn-qty" onclick="cambiar('qty3', -1)">-</button>
+                <b id="qty3" class="cantidad">0</b>
+                <button class="btn-qty" onclick="cambiar('qty3', 1)">+</button>
+            </div>
+        </div>
     </div>
 
-    <div style="margin-top: 20px;">
-        <input type="checkbox" id="refresco" style="transform: scale(1.5);">
-        <label for="refresco" style="font-size: 18px; margin-left: 10px;">¿Desea Refresco? (+ L. 40)</label>
+    <div class="footer-order">
+        <button class="btn-confirm" onclick="enviarTodo()">ENVIAR PEDIDO COMPLETO</button>
     </div>
-
-    <button class="btn-confirm" onclick="enviarPedido()">CONFIRMAR PEDIDO</button>
 </div>
 
-<div id="pantalla-exito" class="card">
-    <h1>¡Pedido Enviado!</h1>
-    <p>Tu número de orden es:</p>
-    <div class="numero-orden" id="num-orden">--</div>
-    <p>Por favor espera en la barra.</p>
+<div id="pantalla-exito">
+    <div class="product-card" style="margin: auto;">
+        <h1>¡Pedido Recibido!</h1>
+        <p>Tu número de orden es:</p>
+        <div class="numero-orden" id="num-orden">--</div>
+        <p>Preparamos tu orden en un momento.</p>
+    </div>
 </div>
 
 <script>
-    let cantidad = 1;
-
-    function cambiar(valor) {
-        cantidad = Math.max(1, cantidad + valor);
-        document.getElementById('qty').innerText = cantidad;
+    function cambiar(id, valor) {
+        let el = document.getElementById(id);
+        let actual = parseInt(el.innerText);
+        el.innerText = Math.max(0, actual + valor);
     }
 
-    async function enviarPedido() {
-        // Definimos las variables correctamente para que NO DE ERROR
-        const nombreProducto = "Hamburguesa Especial"; 
-        const qtyActual = document.getElementById('qty').innerText;
-        const refresco = document.getElementById('refresco').checked ? "SI" : "NO";
-        const orden = Math.floor(Math.random() * 90) + 10; 
+    async function enviarTodo() {
+        // Recolectamos lo que se pidió
+        let pedidoFinal = "";
+        if(parseInt(document.getElementById('qty1').innerText) > 0) pedidoFinal += `Hamb. Especial (${document.getElementById('qty1').innerText}) `;
+        if(parseInt(document.getElementById('qty2').innerText) > 0) pedidoFinal += `Pizza (${document.getElementById('qty2').innerText}) `;
+        if(parseInt(document.getElementById('qty3').innerText) > 0) pedidoFinal += `Papas (${document.getElementById('qty3').innerText}) `;
 
-        // URL Limpia de Google Forms
+        if(pedidoFinal === "") {
+            alert("Por favor selecciona al menos un producto");
+            return;
+        }
+
+        const orden = Math.floor(Math.random() * 90) + 10;
         const URL_FORM = "https://docs.google.com/forms/d/1_XJMvDDZEmWozeLuPPqkpL7ytOV6bg8X5iH1beyeYWE/formResponse";
-        
+
         const formData = new FormData();
-        
-        // Usamos los IDs que sacamos de tus capturas
-        formData.append("entry.894611180", nombreProducto); 
-        formData.append("entry.2098848368", qtyActual);
-        formData.append("entry.157676011", refresco);
-        formData.append("entry.1139720569", orden);
+        formData.append("entry.894611180", pedidoFinal); // En PRODUCTO enviamos toda la lista
+        formData.append("entry.1139720569", orden);       // Número de orden
 
-        // Envío
-        fetch(URL_FORM, { 
-            method: "POST", 
-            body: formData, 
-            mode: "no-cors" 
-        });
+        fetch(URL_FORM, { method: "POST", body: formData, mode: "no-cors" });
 
-        // Cambio de pantalla
         document.getElementById('pantalla-pedido').style.display = "none";
         document.getElementById('pantalla-exito').style.display = "block";
         document.getElementById('num-orden').innerText = "#" + orden;
 
-        // Reiniciar en 8 segundos
-        setTimeout(() => { location.reload(); }, 8000);
+        setTimeout(() => { location.reload(); }, 6000);
     }
 </script>
 
