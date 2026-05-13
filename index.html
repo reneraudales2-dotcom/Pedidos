@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menú Completo Ágape</title>
+    <title>Menú Ágape con Observaciones</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; margin: 0; padding-bottom: 130px; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; margin: 0; padding-bottom: 160px; }
         
-        /* Navegación de Categorías Fija */
+        /* Navegación */
         .tabs { 
             display: flex; justify-content: center; background: #333; 
             padding: 10px; position: sticky; top: 0; z-index: 1000; 
@@ -19,7 +19,7 @@
         }
         .tab-btn.active { background: #e67e22; font-weight: bold; }
 
-        /* Contenedor de productos */
+        /* Productos */
         .menu-container { 
             display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
             gap: 20px; padding: 20px; max-width: 1100px; margin: auto; 
@@ -30,25 +30,28 @@
         }
         .product-card img { width: 100%; border-radius: 15px; height: 180px; object-fit: cover; }
         
-        /* Control de Visibilidad */
         .seccion-productos { display: none; }
         .seccion-productos.active { display: grid; }
 
         .controls { display: flex; justify-content: center; align-items: center; gap: 15px; margin-top: 15px; }
         .btn-qty { 
-            border: 1px solid #ddd; background: white; width: 40px; height: 40px; 
-            border-radius: 50%; cursor: pointer; font-size: 20px; 
+            border: none; background: #e67e22; color: white; width: 35px; height: 35px; 
+            border-radius: 50%; cursor: pointer; font-size: 20px; font-weight: bold;
         }
 
-        /* Footer con Botón de Confirmar */
+        /* Footer y Observaciones */
         .footer-order { 
             position: fixed; bottom: 0; left: 0; right: 0; 
-            background: white; padding: 25px; text-align: center; 
+            background: white; padding: 15px; text-align: center; 
             box-shadow: 0 -5px 20px rgba(0,0,0,0.1); z-index: 1000;
+        }
+        .obs-input {
+            width: 90%; max-width: 500px; padding: 10px; border-radius: 10px;
+            border: 1px solid #ddd; margin-bottom: 10px; font-family: inherit;
         }
         .btn-confirm { 
             background: #27ae60; color: white; border: none; 
-            padding: 15px 60px; font-size: 20px; border-radius: 35px; 
+            padding: 12px 50px; font-size: 18px; border-radius: 35px; 
             cursor: pointer; font-weight: bold;
         }
         
@@ -61,8 +64,8 @@
 <div id="pantalla-pedido">
     <div class="tabs">
         <button class="tab-btn active" onclick="mostrarSeccion('comida', this)">🍔 Comida</button>
-        <button class="tab-btn" onclick="mostrarSeccion('calientes', this)">☕ Bebidas Calientes</button>
-        <button class="tab-btn" onclick="mostrarSeccion('heladas', this)">🥤 Bebidas Heladas</button>
+        <button class="tab-btn" onclick="mostrarSeccion('calientes', this)">☕ Calientes</button>
+        <button class="tab-btn" onclick="mostrarSeccion('heladas', this)">🥤 Heladas</button>
     </div>
 
     <div id="comida" class="seccion-productos active menu-container">
@@ -99,9 +102,83 @@
                 <button class="btn-qty" onclick="cambiar('p3', 1)">+</button>
             </div>
         </div>
+    </div>
+
+    <div id="heladas" class="seccion-productos menu-container">
         <div class="product-card">
-            <img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=400" alt="Cappuccino">
-            <h3>Cappuccino</h3>
-            <p>L. 55.00</p>
+            <img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400" alt="Frappe">
+            <h3>Frappé de Café</h3>
+            <p>L. 70.00</p>
             <div class="controls">
-                <button class="
+                <button class="btn-qty" onclick="cambiar('p5', -1)">-</button>
+                <b id="p5">0</b>
+                <button class="btn-qty" onclick="cambiar('p5', 1)">+</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-order">
+        <input type="text" id="observaciones" class="obs-input" placeholder="¿Alguna nota? (Ej: Sin cebolla, extra hielo...)">
+        <br>
+        <button class="btn-confirm" onclick="enviarPedido()">CONFIRMAR PEDIDO</button>
+    </div>
+</div>
+
+<div id="pantalla-exito">
+    <h1>¡Pedido Enviado!</h1>
+    <p>Tu número de orden es:</p>
+    <div class="numero-orden" id="num-orden">#--</div>
+    <p>¡Gracias por tu compra!</p>
+</div>
+
+<script>
+    const MENU = {
+        'p1': 'Hamb. Especial', 'p2': 'Pizza Pers.',
+        'p3': 'Café Amer.', 'p5': 'Frappé'
+    };
+
+    function mostrarSeccion(id, btn) {
+        document.querySelectorAll('.seccion-productos').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        btn.classList.add('active');
+        window.scrollTo(0,0);
+    }
+
+    function cambiar(id, valor) {
+        let el = document.getElementById(id);
+        el.innerText = Math.max(0, parseInt(el.innerText) + valor);
+    }
+
+    async function enviarPedido() {
+        let detalle = "";
+        for (let id in MENU) {
+            let cant = document.getElementById(id).innerText;
+            if(parseInt(cant) > 0) detalle += `${MENU[id]} (${cant}), `;
+        }
+
+        if(detalle === "") return alert("Por favor selecciona algún producto.");
+
+        const obs = document.getElementById('observaciones').value;
+        const orden = Math.floor(Math.random() * 90) + 10;
+        const URL_FORM = "https://docs.google.com/forms/d/1_XJMvDDZEmWozeLuPPqkpL7ytOV6bg8X5iH1beyeYWE/formResponse";
+        
+        const formData = new FormData();
+        formData.append("entry.894611180", detalle);
+        formData.append("entry.1139720569", orden);
+        
+        // IMPORTANTE: Reemplaza este ID por el ID de tu nueva pregunta de Observaciones
+        // Puedes buscarlo usando el truco de "Inspeccionar" en el formulario
+        formData.append("entry.ESCRIBE_AQUI_EL_ID_DE_OBSERVACIONES", obs);
+
+        fetch(URL_FORM, { method: "POST", body: formData, mode: "no-cors" });
+
+        document.getElementById('pantalla-pedido').style.display = "none";
+        document.getElementById('pantalla-exito').style.display = "block";
+        document.getElementById('num-orden').innerText = "#" + orden;
+
+        setTimeout(() => { location.reload(); }, 6000);
+    }
+</script>
+</body>
+</html>
