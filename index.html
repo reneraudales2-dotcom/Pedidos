@@ -5,7 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiosco de Pedidos - Ágape</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; margin: 0; padding-bottom: 180px; }
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            background: #f0f2f5; 
+            margin: 0; 
+            padding-bottom: 250px; /* Espacio extra para que el footer no tape el contenido */
+        }
         
         /* Navegación Superior Fija */
         .tabs { 
@@ -40,15 +45,29 @@
             border-radius: 50%; cursor: pointer; font-size: 20px; font-weight: bold;
         }
 
-        /* Footer con Observaciones y Botón */
+        /* Footer con Observaciones y Botón - CORREGIDO PARA BRAVE */
         .footer-order { 
-            position: fixed; bottom: 0; left: 0; right: 0; 
-            background: white; padding: 20px; text-align: center; 
-            box-shadow: 0 -5px 20px rgba(0,0,0,0.1); z-index: 1000;
+            position: fixed; 
+            bottom: 0; 
+            left: 0; 
+            right: 0; 
+            background: white; 
+            padding: 20px; 
+            text-align: center; 
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.1); 
+            z-index: 9999; /* Asegura que esté al frente de todo */
         }
         .obs-input {
-            width: 90%; max-width: 500px; padding: 12px; border-radius: 10px;
-            border: 1px solid #ddd; margin-bottom: 10px; font-size: 16px;
+            width: 90%; 
+            max-width: 500px; 
+            padding: 12px; 
+            border-radius: 10px;
+            border: 1px solid #ccc; 
+            margin-bottom: 10px; 
+            font-size: 16px;
+            color: black !important; /* Fuerza color negro en las letras */
+            background-color: white !important; /* Fuerza fondo blanco */
+            font-family: inherit;
         }
         .btn-confirm { 
             background: #27ae60; color: white; border: none; 
@@ -122,4 +141,73 @@
             <h3>Frappé de Café</h3>
             <p>L. 70.00</p>
             <div class="controls">
-                <button class
+                <button class="btn-qty" onclick="cambiar('p5', -1)">-</button>
+                <b id="p5" style="font-size: 24px;">0</b>
+                <button class="btn-qty" onclick="cambiar('p5', 1)">+</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <img src="https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400" alt="Smoothie">
+            <h3>Smoothie Frutal</h3>
+            <p>L. 75.00</p>
+            <div class="controls">
+                <button class="btn-qty" onclick="cambiar('p6', -1)">-</button>
+                <b id="p6" style="font-size: 24px;">0</b>
+                <button class="btn-qty" onclick="cambiar('p6', 1)">+</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-order">
+        <input type="text" id="observaciones" class="obs-input" placeholder="¿Observaciones? (Ej: Sin cebolla, extra hielo...)">
+        <br>
+        <button class="btn-confirm" onclick="enviarPedido()">CONFIRMAR PEDIDO</button>
+    </div>
+</div>
+
+<div id="pantalla-exito">
+    <div class="product-card" style="margin: auto; max-width: 400px;">
+        <h1>¡Pedido Enviado!</h1>
+        <p>Tu número de orden es:</p>
+        <div class="numero-orden" id="num-orden">#--</div>
+        <p>Por favor, espera en la barra.</p>
+    </div>
+</div>
+
+<script>
+    const MENU = {
+        'p1': 'Hamb. Especial', 'p2': 'Pizza Pers.',
+        'p3': 'Café Amer.', 'p4': 'Cappuccino',
+        'p5': 'Frappé', 'p6': 'Smoothie'
+    };
+
+    function mostrarSeccion(id, btn) {
+        document.querySelectorAll('.seccion-productos').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        btn.classList.add('active');
+        window.scrollTo(0,0);
+    }
+
+    function cambiar(id, valor) {
+        let el = document.getElementById(id);
+        el.innerText = Math.max(0, parseInt(el.innerText) + valor);
+    }
+
+    async function enviarPedido() {
+        let detalle = "";
+        for (let id in MENU) {
+            let cant = document.getElementById(id).innerText;
+            if(parseInt(cant) > 0) detalle += `${MENU[id]} (${cant}), `;
+        }
+
+        if(detalle === "") return alert("Por favor selecciona algún producto antes de confirmar.");
+
+        const obs = document.getElementById('observaciones').value;
+        const orden = Math.floor(Math.random() * 90) + 10;
+        const URL_FORM = "https://docs.google.com/forms/d/1_XJMvDDZEmWozeLuPPqkpL7ytOV6bg8X5iH1beyeYWE/formResponse";
+        
+        const formData = new FormData();
+        formData.append("entry.894611180", detalle);
+        formData.append("entry.1139720569", orden);
+        formData
