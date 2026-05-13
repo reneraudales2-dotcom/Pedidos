@@ -3,134 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menú Digital</title>
+    <title>Menú Bebidas Ágape</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f2f5; margin: 0; padding: 20px; padding-bottom: 120px; }
-        h1 { color: #333; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; margin: 0; padding-bottom: 120px; }
         
-        /* Contenedor de productos en cuadrícula */
-        .menu-container { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
-            gap: 20px; 
-            max-width: 1000px; 
-            margin: auto; 
-        }
+        /* Navegación de Categorías */
+        .tabs { display: flex; justify-content: center; background: white; padding: 15px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .tab-btn { border: none; background: #eee; padding: 12px 25px; margin: 0 10px; border-radius: 25px; cursor: pointer; font-weight: bold; font-size: 16px; }
+        .tab-btn.active { background: #e67e22; color: white; }
 
-        .product-card { 
-            background: white; 
-            border-radius: 20px; 
-            padding: 15px; 
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08); 
-            text-align: center;
-        }
-
-        .product-card img { width: 100%; border-radius: 15px; height: 180px; object-fit: cover; }
+        /* Contenedor de productos */
+        .menu-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; padding: 20px; max-width: 1000px; margin: auto; }
+        .product-card { background: white; border-radius: 15px; padding: 15px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .product-card img { width: 100%; border-radius: 10px; height: 150px; object-fit: cover; }
         
-        .controls { display: flex; justify-content: center; align-items: center; gap: 15px; margin: 15px 0; }
-        .btn-qty { border: 1px solid #ddd; background: white; padding: 8px 15px; border-radius: 8px; font-size: 18px; cursor: pointer; }
+        /* Mostrar/Ocultar secciones */
+        .seccion-productos { display: none; }
+        .seccion-productos.active { display: grid; }
 
-        /* Barra inferior fija para confirmar */
-        .footer-order {
-            position: fixed;
-            bottom: 0; left: 0; right: 0;
-            background: white;
-            padding: 20px;
-            box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
-            text-align: center;
-            z-index: 100;
-        }
+        .controls { display: flex; justify-content: center; align-items: center; gap: 15px; margin-top: 15px; }
+        .btn-qty { border: 1px solid #ddd; background: white; padding: 5px 15px; border-radius: 5px; cursor: pointer; }
 
-        .btn-confirm { 
-            background: #27ae60; color: white; border: none; 
-            padding: 15px 50px; font-size: 20px; font-weight: bold;
-            border-radius: 30px; cursor: pointer; transition: 0.3s;
-        }
-        .btn-confirm:hover { background: #219150; transform: scale(1.05); }
-
-        #pantalla-exito { display: none; text-align: center; margin-top: 50px; }
-        .numero-orden { font-size: 80px; color: #27ae60; font-weight: bold; }
+        /* Footer fijo */
+        .footer-order { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 20px; text-align: center; box-shadow: 0 -5px 10px rgba(0,0,0,0.05); }
+        .btn-confirm { background: #27ae60; color: white; border: none; padding: 15px 40px; font-size: 18px; border-radius: 30px; cursor: pointer; }
+        
+        #pantalla-exito { display: none; text-align: center; padding: 50px; }
     </style>
 </head>
 <body>
 
 <div id="pantalla-pedido">
-    <h1 style="text-align:center">Menú Ágape</h1>
-    
-    <div class="menu-container">
+    <div class="tabs">
+        <button class="tab-btn active" onclick="mostrarSeccion('calientes', this)">☕ Bebidas Calientes</button>
+        <button class="tab-btn" onclick="mostrarSeccion('heladas', this)">🥤 Bebidas Heladas</button>
+    </div>
+
+    <div id="calientes" class="seccion-productos active menu-container">
         <div class="product-card">
-            <img src="https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=500" alt="Hamburguesa">
-            <h2>Hamburguesa Especial</h2>
-            <p>L. 150.00</p>
+            <img src="https://images.unsplash.com/photo-1541167760496-162955ed8a9f?w=400" alt="Café">
+            <h3>Café Americano</h3>
+            <p>L. 35.00</p>
             <div class="controls">
-                <button class="btn-qty" onclick="cambiar('qty1', -1)">-</button>
-                <b id="qty1" class="cantidad">0</b>
-                <button class="btn-qty" onclick="cambiar('qty1', 1)">+</button>
+                <button class="btn-qty" onclick="cambiar('c1', -1)">-</button>
+                <b id="c1">0</b>
+                <button class="btn-qty" onclick="cambiar('c1', 1)">+</button>
             </div>
         </div>
-
         <div class="product-card">
-            <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500" alt="Pizza">
-            <h2>Pizza Personal</h2>
-            <p>L. 120.00</p>
+            <img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=400" alt="Cappuccino">
+            <h3>Cappuccino</h3>
+            <p>L. 55.00</p>
             <div class="controls">
-                <button class="btn-qty" onclick="cambiar('qty2', -1)">-</button>
-                <b id="qty2" class="cantidad">0</b>
-                <button class="btn-qty" onclick="cambiar('qty2', 1)">+</button>
+                <button class="btn-qty" onclick="cambiar('c2', -1)">-</button>
+                <b id="c2">0</b>
+                <button class="btn-qty" onclick="cambiar('c2', 1)">+</button>
             </div>
         </div>
+    </div>
 
+    <div id="heladas" class="seccion-productos menu-container">
         <div class="product-card">
-            <img src="https://images.unsplash.com/photo-1567234665766-4740a757e738?w=500" alt="Papas">
-            <h2>Papas Fritas</h2>
-            <p>L. 60.00</p>
+            <img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400" alt="Iced Coffee">
+            <h3>Iced Coffee</h3>
+            <p>L. 65.00</p>
             <div class="controls">
-                <button class="btn-qty" onclick="cambiar('qty3', -1)">-</button>
-                <b id="qty3" class="cantidad">0</b>
-                <button class="btn-qty" onclick="cambiar('qty3', 1)">+</button>
+                <button class="btn-qty" onclick="cambiar('h1', -1)">-</button>
+                <b id="h1">0</b>
+                <button class="btn-qty" onclick="cambiar('h1', 1)">+</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <img src="https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400" alt="Smoothie">
+            <h3>Smoothie Frutas</h3>
+            <p>L. 75.00</p>
+            <div class="controls">
+                <button class="btn-qty" onclick="cambiar('h2', -1)">-</button>
+                <b id="h2">0</b>
+                <button class="btn-qty" onclick="cambiar('h2', 1)">+</button>
             </div>
         </div>
     </div>
 
     <div class="footer-order">
-        <button class="btn-confirm" onclick="enviarTodo()">ENVIAR PEDIDO COMPLETO</button>
+        <button class="btn-confirm" onclick="enviarPedido()">CONFIRMAR PEDIDO</button>
     </div>
 </div>
 
 <div id="pantalla-exito">
-    <div class="product-card" style="margin: auto;">
-        <h1>¡Pedido Recibido!</h1>
-        <p>Tu número de orden es:</p>
-        <div class="numero-orden" id="num-orden">--</div>
-        <p>Preparamos tu orden en un momento.</p>
-    </div>
+    <h1>¡Pedido Enviado!</h1>
+    <div style="font-size: 80px; color: #27ae60;" id="num-orden">#--</div>
+    <p>Preparamos tu bebida en breve.</p>
 </div>
 
 <script>
-    function cambiar(id, valor) {
-        let el = document.getElementById(id);
-        let actual = parseInt(el.innerText);
-        el.innerText = Math.max(0, actual + valor);
+    function mostrarSeccion(id, btn) {
+        // Ocultar todas las secciones
+        document.querySelectorAll('.seccion-productos').forEach(sec => sec.classList.remove('active'));
+        // Quitar estado activo de todos los botones
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        
+        // Mostrar la elegida
+        document.getElementById(id).classList.add('active');
+        btn.classList.add('active');
     }
 
-    async function enviarTodo() {
-        // Recolectamos lo que se pidió
-        let pedidoFinal = "";
-        if(parseInt(document.getElementById('qty1').innerText) > 0) pedidoFinal += `Hamb. Especial (${document.getElementById('qty1').innerText}) `;
-        if(parseInt(document.getElementById('qty2').innerText) > 0) pedidoFinal += `Pizza (${document.getElementById('qty2').innerText}) `;
-        if(parseInt(document.getElementById('qty3').innerText) > 0) pedidoFinal += `Papas (${document.getElementById('qty3').innerText}) `;
+    function cambiar(id, valor) {
+        let el = document.getElementById(id);
+        el.innerText = Math.max(0, parseInt(el.innerText) + valor);
+    }
 
-        if(pedidoFinal === "") {
-            alert("Por favor selecciona al menos un producto");
-            return;
+    async function enviarPedido() {
+        let detalle = "";
+        // Lista de IDs a revisar
+        const ids = {
+            'c1': 'Café Amer.', 'c2': 'Cappuccino',
+            'h1': 'Iced Coffee', 'h2': 'Smoothie'
+        };
+        
+        for (let id in ids) {
+            let cant = document.getElementById(id).innerText;
+            if(parseInt(cant) > 0) detalle += `${ids[id]} (${cant}) `;
         }
+
+        if(detalle === "") return alert("Selecciona una bebida");
 
         const orden = Math.floor(Math.random() * 90) + 10;
         const URL_FORM = "https://docs.google.com/forms/d/1_XJMvDDZEmWozeLuPPqkpL7ytOV6bg8X5iH1beyeYWE/formResponse";
-
+        
         const formData = new FormData();
-        formData.append("entry.894611180", pedidoFinal); // En PRODUCTO enviamos toda la lista
-        formData.append("entry.1139720569", orden);       // Número de orden
+        formData.append("entry.894611180", detalle);
+        formData.append("entry.1139720569", orden);
 
         fetch(URL_FORM, { method: "POST", body: formData, mode: "no-cors" });
 
@@ -141,6 +144,5 @@
         setTimeout(() => { location.reload(); }, 6000);
     }
 </script>
-
 </body>
 </html>
