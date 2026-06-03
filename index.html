@@ -3,29 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiosco de Pedidos - Ágape</title>
+    <title>Quiosco de Pedidos - Ágape Coffee</title>
     <style>
         body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; margin: 0; padding-bottom: 250px; }
         
-        /* Navegación */
+        /* Navegación Fija */
         .tabs { 
             display: flex; justify-content: center; background: #333; 
             padding: 10px; position: sticky; top: 0; z-index: 1000; 
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2); overflow-x: auto;
         }
         .tab-btn { 
             border: none; background: #444; color: white; padding: 12px 20px; 
-            margin: 0 5px; border-radius: 10px; cursor: pointer; font-weight: bold;
+            margin: 0 5px; border-radius: 10px; cursor: pointer; font-weight: bold; white-space: nowrap;
         }
         .tab-btn.active { background: #e67e22; }
 
-        /* Productos */
+        /* Contenedor de Productos */
         .menu-container { 
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
-            gap: 20px; padding: 20px; max-width: 1100px; margin: auto; 
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); 
+            gap: 20px; padding: 20px; max-width: 1200px; margin: auto; 
         }
-        .product-card { background: white; border-radius: 20px; padding: 15px; text-align: center; }
-        .product-card img { width: 100%; border-radius: 15px; height: 180px; object-fit: cover; }
+        .product-card { background: white; border-radius: 20px; padding: 15px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .product-card h3 { margin: 10px 0 5px 0; font-size: 18px; color: #333; }
+        .product-card .size-tag { background: #7f8c8d; color: white; padding: 2px 8px; border-radius: 5px; font-size: 12px; }
+        .product-card p { margin: 5px 0; font-weight: bold; color: #e67e22; font-size: 16px; }
         
         .seccion-productos { display: none; }
         .seccion-productos.active { display: grid; }
@@ -36,7 +38,7 @@
             border-radius: 50%; cursor: pointer; font-size: 20px; font-weight: bold;
         }
 
-        /* Footer Fijo */
+        /* Footer Fijo con Parche para Brave */
         .footer-order { 
             position: fixed; bottom: 0; left: 0; right: 0; 
             background: white; padding: 20px; text-align: center; 
@@ -45,13 +47,14 @@
         .obs-input {
             width: 90%; max-width: 500px; padding: 12px; border-radius: 10px;
             border: 1px solid #ccc; margin-bottom: 10px; font-size: 16px;
-            color: black; background-color: white;
+            color: black !important; background-color: white !important;
         }
         .btn-confirm { 
             background: #27ae60; color: white; border: none; 
             padding: 15px 60px; font-size: 20px; border-radius: 35px; 
-            cursor: pointer; font-weight: bold;
+            cursor: pointer; font-weight: bold; transition: 0.3s;
         }
+        .btn-confirm:active { transform: scale(0.95); }
         
         #pantalla-exito { display: none; text-align: center; padding: 60px 20px; }
         .numero-orden { font-size: 100px; color: #27ae60; font-weight: bold; }
@@ -62,90 +65,438 @@
 <div id="pantalla-pedido">
     <div class="tabs">
         <button class="tab-btn active" onclick="mostrarSeccion('comida', this)">🍔 Comida</button>
-        <button class="tab-btn" onclick="mostrarSeccion('calientes', this)">☕ Calientes</button>
-        <button class="tab-btn" onclick="mostrarSeccion('heladas', this)">🥤 Heladas</button>
+        <button class="tab-btn" onclick="mostrarSeccion('calientes', this)">☕ Bebidas Calientes</button>
+        <button class="tab-btn" onclick="mostrarSeccion('heladas', this)">🥤 Bebidas Frías</button>
     </div>
 
+    <!-- SECCIÓN COMIDA -->
     <div id="comida" class="seccion-productos active menu-container">
         <div class="product-card">
-            <img src="https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=500" alt="Hamb">
             <h3>Hamburguesa Especial</h3>
             <p>L. 150.00</p>
             <div class="controls">
-                <button type="button" class="btn-qty" onclick="cambiar('p1', -1)">-</button>
-                <b id="p1" style="font-size: 24px;">0</b>
-                <button type="button" class="btn-qty" onclick="cambiar('p1', 1)">+</button>
+                <button type="button" class="btn-qty" onclick="cambiar('p_comida1', -1)">-</button>
+                <b id="p_comida1" style="font-size: 24px;">0</b>
+                <button type="button" class="btn-qty" onclick="cambiar('p_comida1', 1)">+</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <h3>Pizza Personal</h3>
+            <p>L. 120.00</p>
+            <div class="controls">
+                <button type="button" class="btn-qty" onclick="cambiar('p_comida2', -1)">-</button>
+                <b id="p_comida2" style="font-size: 24px;">0</b>
+                <button type="button" class="btn-qty" onclick="cambiar('p_comida2', 1)">+</button>
             </div>
         </div>
     </div>
 
+    <!-- SECCIÓN BEBIDAS CALIENTES -->
     <div id="calientes" class="seccion-productos menu-container">
+        <!-- Americano -->
         <div class="product-card">
-            <img src="https://images.unsplash.com/photo-1541167760496-162955ed8a9f?w=400" alt="Café">
-            <h3>Café Americano</h3>
-            <p>L. 35.00</p>
+            <h3>Americano <span class="size-tag">8oz</span></h3><p>L. 35.00</p>
             <div class="controls">
-                <button type="button" class="btn-qty" onclick="cambiar('p3', -1)">-</button>
-                <b id="p3" style="font-size: 24px;">0</b>
-                <button type="button" class="btn-qty" onclick="cambiar('p3', 1)">+</button>
+                <button type="button" class="btn-qty" onclick="cambiar('c_ame8', -1)">-</button>
+                <b id="c_ame8" style="font-size: 24px;">0</b>
+                <button type="button" class="btn-qty" onclick="cambiar('c_ame8', 1)">+</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <h3>Americano <span class="size-tag">12oz</span></h3><p>L. 40.00</p>
+            <div class="controls">
+                <button type="button" class="btn-qty" onclick="cambiar('c_ame12', -1)">-</button>
+                <b id="c_ame12" style="font-size: 24px;">0</b>
+                <button type="button" class="btn-qty" onclick="cambiar('c_ame12', 1)">+</button>
+            </div>
+        </div>
+
+        <!-- Espresso -->
+        <div class="product-card">
+            <h3>Espresso <span class="size-tag">8oz</span></h3><p>L. 25.00</p>
+            <div class="controls">
+                <button type="button" class="btn-qty" onclick="cambiar('c_esp8', -1)">-</button>
+                <b id="c_esp8" style="font-size: 24px;">0</b>
+                <button type="button" class="btn-qty" onclick="cambiar('c_esp8', 1)">+</button>
+            </div>
+        </div>
+
+        <!-- Cortadito -->
+        <div class="product-card">
+            <h3>Cortadito <span class="size-tag">8oz</span></h3><p>L. 25.00</p>
+            <div class="controls">
+                <button type="button" class="btn-qty" onclick="cambiar('c_cort8', -1)">-</button>
+                <b id="c_cort8" style="font-size: 24px;">0</b>
+                <button type="button" class="btn-qty" onclick="cambiar('c_cort8', 1)">+</button>
+            </div>
+        </div>
+
+        <!-- Capuchino -->
+        <div class="product-card">
+            <h3>Capuchino <span class="size-tag">8oz</span></h3><p>L. 60.00</p>
+            <div class="controls">
+                <button type="button" class="btn-qty" onclick="cambiar('c_cap8', -1)">-</button>
+                <b id="c_cap8" style="font-size: 24px;">0</b>
+                <button type="button" class="btn-qty" onclick="cambiar('c_cap8', 1)">+</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <h3>Capuchino <span class="size-tag">12oz</span></h3><p>L. 65.00</p>
+            <div class="controls">
+                <button type="button" class="btn-qty" onclick="cambiar('c_cap12', -1)">-</button>
+                <b id="c_cap12" style="font-size: 24px;">0</b>
+                <button type="button" class="btn-qty" onclick="cambiar('c_cap12', 1)">+</button>
+            </div>
+        </div>
+
+        <!-- Latte -->
+        <div class="product-card">
+            <h3>Latte <span class="size-tag">8oz</span></h3><p>L. 60.00</p>
+            <div class="controls">
+                <button type="button" class="btn-qty" onclick="cambiar('c_lat8', -1)">-</button>
+                <b id="c_lat8" style="font-size: 24px;">0</b>
+                <button type="button" class="btn-qty" onclick="cambiar('c_lat8', 1)">+</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <h3>Latte <span class="size-tag">12oz</span></h3><p>L. 65.00</p>
+            <div class="controls">
+                <button type="button" class="btn-qty" onclick="cambiar('c_lat12', -1)">-</button>
+                <b id="c_lat12" style="font-size: 24px;">0</b>
+                <button type="button" class="btn-qty" onclick="cambiar('c_lat12', 1)">+</button>
+            </div>
+        </div>
+
+        <!-- Café Bombón -->
+        <div class="product-card">
+            <h3>Café Bombón <span class="size-tag">8oz</span></h3><p>L. 65.00</p>
+            <div class="controls">
+                <button type="button" class="btn-qty" onclick="cambiar('c_bom8', -1)">-</button>
+                <b id="c_bom8" style="font-size: 24px;">0</b>
+                <button type="button" class="btn-qty" onclick="cambiar('c_bom8', 1)">+</button>
+            </div>
+        </div>
+
+        <!-- Mocha -->
+        <div class="product-card">
+            <h3>Mocha <span class="size-tag">12oz</span></h3><p>L. 70.00</p>
+            <div class="controls">
+                <button type="button" class="btn-qty" onclick="cambiar('c_moc12', -1)">-</button>
+                <b id="c_moc12" style="font-size: 24px;">0</b>
+                <button type="button" class="btn-qty" onclick="cambiar('c_moc12', 1)">+</button>
+            </div>
+        </div>
+
+        <!-- Chai Caliente -->
+        <div class="product-card">
+            <h3>Chai Caliente <span class="size-tag">8oz</span></h3><p>L. 60.00</p>
+            <div class="controls">
+                <button type="button" class="btn-qty" onclick="cambiar('c_chai8', -1)">-</button>
+                <b id="c_chai8" style="font-size: 24px;">0</b>
+                <button type="button" class="btn-qty" onclick="cambiar('c_chai8', 1)">+</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <h3>Chai Caliente <span class="size-tag">12oz</span></h3><p>L. 65.00</p>
+            <div class="controls">
+                <button type="button" class="btn-qty" onclick="cambiar('c_chai12', -1)">-</button>
+                <b id="c_chai12" style="font-size: 24px;">0</b>
+                <button type="button" class="btn-qty" onclick="cambiar('c_chai12', 1)">+</button>
+            </div>
+        </div>
+
+        <!-- Pinol -->
+        <div class="product-card">
+            <h3>Pinol <span class="size-tag">8oz</span></h3><p>L. 55.00</p>
+            <div class="controls">
+                <button type="button" class="btn-qty" onclick="cambiar('c_pin8', -1)">-</button>
+                <b id="c_pin8" style="font-size: 24px;">0</b>
+                <button type="button" class="btn-qty" onclick="cambiar('c_pin8', 1)">+</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <h3>Pinol <span class="size-tag">12oz</span></h3><p>L. 60.00</p>
+            <div class="controls">
+                <button type="button" class="btn-qty" onclick="cambiar('c_pin12', -1)">-</button>
+                <b id="c_pin12" style="font-size: 24px;">0</b>
+                <button type="button" class="btn-qty" onclick="cambiar('c_pin12', 1)">+</button>
+            </div>
+        </div>
+
+        <!-- Chocolate -->
+        <div class="product-card">
+            <h3>Chocolate <span class="size-tag">8oz</span></h3><p>L. 60.00</p>
+            <div class="controls">
+                <button type="button" class="btn-qty" onclick="cambiar('c_cho8', -1)">-</button>
+                <b id="c_cho8" style="font-size: 24px;">0</b>
+                <button type="button" class="btn-qty" onclick="cambiar('c_cho8', 1)">+</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <h3>Chocolate <span class="size-tag">12oz</span></h3><p>L. 65.00</p>
+            <div class="controls">
+                <button type="button" class="btn-qty" onclick="cambiar('c_cho12', -1)">-</button>
+                <b id="c_cho12" style="font-size: 24px;">0</b>
+                <button type="button" class="btn-qty" onclick="cambiar('c_cho12', 1)">+</button>
+            </div>
+        </div>
+
+        <!-- Té Sabores -->
+        <div class="product-card">
+            <h3>Té (Sabores) <span class="size-tag">12oz</span></h3><p>L. 25.00</p>
+            <div class="controls">
+                <button type="button" class="btn-qty" onclick="cambiar('c_te12', -1)">-</button>
+                <b id="c_te12" style="font-size: 24px;">0</b>
+                <button type="button" class="btn-qty" onclick="cambiar('c_te12', 1)">+</button>
+            </div>
+        </div>
+
+        <!-- Tisanas -->
+        <div class="product-card">
+            <h3>Tisanas <span class="size-tag">12oz</span></h3><p>L. 75.00</p>
+            <div class="controls">
+                <button type="button" class="btn-qty" onclick="cambiar('c_tis12', -1)">-</button>
+                <b id="c_tis12" style="font-size: 24px;">0</b>
+                <button type="button" class="btn-qty" onclick="cambiar('c_tis12', 1)">+</button>
             </div>
         </div>
     </div>
 
+    <!-- SECCIÓN BEBIDAS FRÍAS -->
     <div id="heladas" class="seccion-productos menu-container">
+        <!-- Batidos -->
         <div class="product-card">
-            <img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400" alt="Frappe">
-            <h3>Frappé de Café</h3>
-            <p>L. 70.00</p>
+            <h3>Batido Fresa <span class="size-tag">16oz</span></h3><p>L. 65.00</p>
             <div class="controls">
-                <button type="button" class="btn-qty" onclick="cambiar('p5', -1)">-</button>
-                <b id="p5" style="font-size: 24px;">0</b>
-                <button type="button" class="btn-qty" onclick="cambiar('p5', 1)">+</button>
+                <button type="button" class="btn-qty" onclick="cambiar('f_bat_fre', -1)">-</button>
+                <b id="f_bat_fre" style="font-size: 24px;">0</b>
+                <button type="button" class="btn-qty" onclick="cambiar('f_bat_fre', 1)">+</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <h3>Batido Banano <span class="size-tag">16oz</span></h3><p>L. 65.00</p>
+            <div class="controls">
+                <button type="button" class="btn-qty" onclick="cambiar('f_bat_ban', -1)">-</button>
+                <b id="f_bat_ban" style="font-size: 24px;">0</b>
+                <button type="button" class="btn-qty" onclick="cambiar('f_bat_ban', 1)">+</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <h3>Batido Chocolate <span class="size-tag">16oz</span></h3><p>L. 65.00</p>
+            <div class="controls">
+                <button type="button" class="btn-qty" onclick="cambiar('f_bat_cho', -1)">-</button>
+                <b id="f_bat_cho" style="font-size: 24px;">0</b>
+                <button type="button" class="btn-qty" onclick="cambiar('f_bat_cho', 1)">+</button>
+            </div>
+        </div>
+
+        <!-- Smoothies Pizarra -->
+        <div class="product-card">
+            <h3>Smoothie Mango <span class="size-tag">16oz</span></h3><p>L. 65.00</p>
+            <div class="controls">
+                <button type="button" class="btn-qty" onclick="cambiar('f_sm_man', -1)">-</button>
+                <b id="f_sm_man" style="font-size: 24px;">0</b>
+                <button type="button" class="btn-qty" onclick="cambiar('f_sm_man', 1)">+</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <h3>Smoothie Fresa <span class="size-tag">16oz</span></h3><p>L. 65.00</p>
+            <div class="controls">
+                <button type="button" class="btn-qty" onclick="cambiar('f_sm_fre', -1)">-</button>
+                <b id="f_sm_fre" style="font-size: 24px;">0</b>
+                <button type="button" class="btn-qty" onclick="cambiar('f_sm_fre', 1)">+</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <h3>Smoothie Manzana Verde <span class="size-tag">16oz</span></h3><p>L. 65.00</p>
+            <div class="controls">
+                <button type="button" class="btn-qty" onclick="cambiar('f_sm_mv', -1)">-</button>
+                <b id="f_sm_mv" style="font-size: 24px;">0</b>
+                <button type="button" class="btn-qty" onclick="cambiar('f_sm_mv', 1)">+</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <h3>Smoothie Mora Azul <span class="size-tag">16oz</span></h3><p>L. 65.00</p>
+            <div class="controls">
+                <button type="button" class="btn-qty" onclick="cambiar('f_sm_ma', -1)">-</button>
+                <b id="f_sm_ma" style="font-size: 24px;">0</b>
+                <button type="button" class="btn-qty" onclick="cambiar('f_sm_ma', 1)">+</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <h3>Smoothie Piña Colada <span class="size-tag">16oz</span></h3><p>L. 65.00</p>
+            <div class="controls">
+                <button type="button" class="btn-qty" onclick="cambiar('f_sm_pc', -1)">-</button>
+                <b id="f_sm_pc" style="font-size: 24px;">0</b>
+                <button type="button" class="btn-qty" onclick="cambiar('f_sm_pc', 1)">+</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <h3>Smoothie Sandía <span class="size-tag">16oz</span></h3><p>L. 65.00</p>
+            <div class="controls">
+                <button type="button" class="btn-qty" onclick="cambiar('f_sm_san', -1)">-</button>
+                <b id="f_sm_san" style="font-size: 24px;">0</b>
+                <button type="button" class="btn-qty" onclick="cambiar('f_sm_san', 1)">+</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <h3>Smoothie Maracuyá <span class="size-tag">16oz</span></h3><p>L. 65.00</p>
+            <div class="controls">
+                <button type="button" class="btn-qty" onclick="cambiar('f_sm_mar', -1)">-</button>
+                <b id="f_sm_mar" style="font-size: 24px;">0</b>
+                <button type="button" class="btn-qty" onclick="cambiar('f_sm_mar', 1)">+</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <h3>Limón con Fresa/Menta <span class="size-tag">16oz</span></h3><p>L. 70.00</p>
+            <div class="controls">
+                <button type="button" class="btn-qty" onclick="cambiar('f_sm_lfm', -1)">-</button>
+                <b id="f_sm_lfm" style="font-size: 24px;">0</b>
+                <button type="button" class="btn-qty" onclick="cambiar('f_sm_lfm', 1)">+</button>
+            </div>
+        </div>
+
+        <!-- Limonadas comunes -->
+        <div class="product-card">
+            <h3>Limonada (Menta/Fresa) <span class="size-tag">16oz</span></h3><p>L. 50.00</p>
+            <div class="controls">
+                <button type="button" class="btn-qty" onclick="cambiar('f_lim50', -1)">-</button>
+                <b id="f_lim50" style="font-size: 24px;">0</b>
+                <button type="button" class="btn-qty" onclick="cambiar('f_lim50', 1)">+</button>
+            </div>
+        </div>
+
+        <!-- Especialidades Frías -->
+        <div class="product-card">
+            <h3>Frappé de Oreo <span class="size-tag">16oz</span></h3><p>L. 75.00</p>
+            <div class="controls">
+                <button type="button" class="btn-qty" onclick="cambiar('f_fr_oreo', -1)">-</button>
+                <b id="f_fr_oreo" style="font-size: 24px;">0</b>
+                <button type="button" class="btn-qty" onclick="cambiar('f_fr_oreo', 1)">+</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <h3>Iced Latte <span class="size-tag">16oz</span></h3><p>L. 65.00</p>
+            <div class="controls">
+                <button type="button" class="btn-qty" onclick="cambiar('f_ic_lat', -1)">-</button>
+                <b id="f_ic_lat" style="font-size: 24px;">0</b>
+                <button type="button" class="btn-qty" onclick="cambiar('f_ic_lat', 1)">+</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <h3>Iced Caramel Latte <span class="size-tag">16oz</span></h3><p>L. 70.00</p>
+            <div class="controls">
+                <button type="button" class="btn-qty" onclick="cambiar('f_ic_car', -1)">-</button>
+                <b id="f_ic_car" style="font-size: 24px;">0</b>
+                <button type="button" class="btn-qty" onclick="cambiar('f_ic_car', 1)">+</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <h3>Iced Caramel Oreo <span class="size-tag">16oz</span></h3><p>L. 70.00</p>
+            <div class="controls">
+                <button type="button" class="btn-qty" onclick="cambiar('f_ic_or', -1)">-</button>
+                <b id="f_ic_or" style="font-size: 24px;">0</b>
+                <button type="button" class="btn-qty" onclick="cambiar('f_ic_or', 1)">+</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <h3>Chai Frío <span class="size-tag">16oz</span></h3><p>L. 70.00</p>
+            <div class="controls">
+                <button type="button" class="btn-qty" onclick="cambiar('f_chai', -1)">-</button>
+                <b id="f_chai" style="font-size: 24px;">0</b>
+                <button type="button" class="btn-qty" onclick="cambiar('f_chai', 1)">+</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <h3>Té Frío <span class="size-tag">16oz</span></h3><p>L. 50.00</p>
+            <div class="controls">
+                <button type="button" class="btn-qty" onclick="cambiar('f_te', -1)">-</button>
+                <b id="f_te" style="font-size: 24px;">0</b>
+                <button type="button" class="btn-qty" onclick="cambiar('f_te', 1)">+</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <h3>Pinolita <span class="size-tag">16oz</span></h3><p>L. 45.00</p>
+            <div class="controls">
+                <button type="button" class="btn-qty" onclick="cambiar('f_pin', -1)">-</button>
+                <b id="f_pin" style="font-size: 24px;">0</b>
+                <button type="button" class="btn-qty" onclick="cambiar('f_pin', 1)">+</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <h3>Jugos (Manz/Piña/Limón) <span class="size-tag">16oz</span></h3><p>L. 50.00</p>
+            <div class="controls">
+                <button type="button" class="btn-qty" onclick="cambiar('f_jug', -1)">-</button>
+                <b id="f_jug" style="font-size: 24px;">0</b>
+                <button type="button" class="btn-qty" onclick="cambiar('f_jug', 1)">+</button>
+            </div>
+        </div>
+        <div class="product-card">
+            <h3>Granita de Café <span class="size-tag">16oz</span></h3><p>L. 60.00</p>
+            <div class="controls">
+                <button type="button" class="btn-qty" onclick="cambiar('f_gran', -1)">-</button>
+                <b id="f_gran" style="font-size: 24px;">0</b>
+                <button type="button" class="btn-qty" onclick="cambiar('f_gran', 1)">+</button>
             </div>
         </div>
     </div>
 
+    <!-- ACCESIBILIDAD FIJA -->
     <div class="footer-order">
-        <input type="text" id="observaciones" class="obs-input" placeholder="¿Observaciones?">
+        <input type="text" id="observaciones" class="obs-input" placeholder="¿Observaciones? (Ej: Leche descremada, sin azúcar...)">
         <br>
         <button type="button" class="btn-confirm" onclick="enviarPedido()">CONFIRMAR PEDIDO</button>
     </div>
 </div>
 
-<div id="pantalla-exito">
-    <h1>¡Pedido Enviado!</h1>
-    <div class="numero-orden" id="num-orden">#--</div>
+<div id="pantalla-exito" style="padding-top: 100px;">
+    <div class="product-card" style="margin: auto; max-width: 400px; padding: 30px;">
+        <h1 style="color: #27ae60; margin-bottom: 10px;">¡Pedido Recibido!</h1>
+        <p style="color: #666; font-size: 18px;">Tu número de orden es:</p>
+        <div class="numero-orden" id="num-orden">#--</div>
+        <p style="color: #888; font-size: 14px; margin-top: 20px;">Por favor, espera que llamen tu número en barra.</p>
+    </div>
 </div>
 
 <script>
+    // DICCIONARIO COMPLETO MAPEADO CON TAMAÑOS
     const MENU = {
-        'p1': 'Hamb. Especial',
-        'p3': 'Café Amer.',
-        'p5': 'Frappé'
+        'p_comida1': 'Hamburguesa Especial', 'p_comida2': 'Pizza Personal',
+        'c_ame8': 'Americano 8oz', 'c_ame12': 'Americano 12oz',
+        'c_esp8': 'Espresso 8oz', 'c_cort8': 'Cortadito 8oz',
+        'c_cap8': 'Capuchino 8oz', 'c_cap12': 'Capuchino 12oz',
+        'c_lat8': 'Latte 8oz', 'c_lat12': 'Latte 12oz',
+        'c_bom8': 'Café Bombón 8oz', 'c_moc12': 'Mocha 12oz',
+        'c_chai8': 'Chai Caliente 8oz', 'c_chai12': 'Chai Caliente 12oz',
+        'c_pin8': 'Pinol 8oz', 'c_pin12': 'Pinol 12oz',
+        'c_cho8': 'Chocolate 8oz', 'c_cho12': 'Chocolate 12oz',
+        'c_te12': 'Té Sabores 12oz', 'c_tis12': 'Tisanas 12oz',
+        'f_bat_fre': 'Batido Fresa 16oz', 'f_bat_ban': 'Batido Banano 16oz', 'f_bat_cho': 'Batido Chocolate 16oz',
+        'f_sm_man': 'Smoothie Mango 16oz', 'f_sm_fre': 'Smoothie Fresa 16oz', 'f_sm_mv': 'Smoothie Manzana V. 16oz',
+        'f_sm_ma': 'Smoothie Mora Azul 16oz', 'f_sm_pc': 'Smoothie Piña Colada 16oz', 'f_sm_san': 'Smoothie Sandía 16oz',
+        'f_sm_mar': 'Smoothie Maracuyá 16oz', 'f_sm_lfm': 'Limón Fresa/Menta 16oz', 'f_lim50': 'Limonada Menta/Fresa 16oz',
+        'f_fr_oreo': 'Frappé Oreo 16oz', 'f_ic_lat': 'Iced Latte 16oz', 'f_ic_car': 'Iced Caramel Latte 16oz',
+        'f_ic_or': 'Iced Caramel Oreo 16oz', 'f_chai': 'Chai Frío 16oz', 'f_te': 'Té Frío 16oz',
+        'f_pin': 'Pinolita 16oz', 'f_jug': 'Jugos 16oz', 'f_gran': 'Granita Café 16oz'
     };
 
     function mostrarSeccion(seccionId, boton) {
-        console.log("Cambiando a:", seccionId); // Esto ayuda a ver si funciona en la consola
-        
-        // 1. Ocultar todas las secciones
         const secciones = document.getElementsByClassName('seccion-productos');
         for (let i = 0; i < secciones.length; i++) {
             secciones[i].classList.remove('active');
         }
-        
-        // 2. Quitar color naranja de todos los botones
         const botones = document.getElementsByClassName('tab-btn');
         for (let i = 0; i < botones.length; i++) {
             botones[i].classList.remove('active');
         }
-        
-        // 3. Mostrar la elegida y activar el botón
         document.getElementById(seccionId).classList.add('active');
         boton.classList.add('active');
+        window.scrollTo(0,0);
     }
 
     function cambiar(id, valor) {
         const elemento = document.getElementById(id);
+        if (!elemento) return;
         let actual = parseInt(elemento.innerText);
         let nuevo = actual + valor;
         if (nuevo < 0) nuevo = 0;
@@ -155,14 +506,17 @@
     async function enviarPedido() {
         let detalle = "";
         for (let id in MENU) {
-            let cant = document.getElementById(id).innerText;
-            if(parseInt(cant) > 0) {
-                detalle += MENU[id] + " (" + cant + "), ";
+            const elemento = document.getElementById(id);
+            if (elemento) {
+                let cant = elemento.innerText;
+                if(parseInt(cant) > 0) {
+                    detalle += MENU[id] + " (" + cant + "), ";
+                }
             }
         }
 
         if(detalle === "") {
-            alert("Selecciona un producto");
+            alert("Por favor, selecciona al menos un producto.");
             return;
         }
 
