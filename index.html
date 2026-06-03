@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiosco de Pedidos - Ágape Coffee</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; margin: 0; padding-bottom: 280px; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; margin: 0; padding-bottom: 40px; }
         
         /* Navegación Fija */
         .tabs { 
@@ -50,26 +50,26 @@
             border-radius: 50%; cursor: pointer; font-size: 20px; font-weight: bold;
         }
 
-        /* Footer Fijo con Totalizador */
+        /* Apartado de Cierre (Abajo del todo, NO fijo) */
         .footer-order { 
-            position: fixed; bottom: 0; left: 0; right: 0; 
-            background: white; padding: 20px; text-align: center; 
-            box-shadow: 0 -5px 20px rgba(0,0,0,0.1); z-index: 9999;
+            background: white; padding: 30px 20px; text-align: center; 
+            box-shadow: 0 -2px 15px rgba(0,0,0,0.05); margin: 30px auto 0 auto;
+            max-width: 600px; border-radius: 20px;
         }
         .total-container {
-            font-size: 24px; font-weight: bold; color: #333; margin-bottom: 12px;
+            font-size: 26px; font-weight: bold; color: #333; margin-bottom: 15px;
         }
         .total-container span { color: #27ae60; }
         
         .obs-input {
-            width: 90%; max-width: 500px; padding: 12px; border-radius: 10px;
-            border: 1px solid #ccc; margin-bottom: 10px; font-size: 16px;
-            color: black !important; background-color: white !important;
+            width: 90%; max-width: 500px; padding: 14px; border-radius: 12px;
+            border: 1px solid #ccc; margin-bottom: 20px; font-size: 16px;
+            color: black !important; background-color: white !important; box-sizing: border-box;
         }
         .btn-confirm { 
             background: #27ae60; color: white; border: none; 
-            padding: 15px 60px; font-size: 20px; border-radius: 35px; 
-            cursor: pointer; font-weight: bold; transition: 0.3s;
+            padding: 16px 60px; font-size: 20px; border-radius: 35px; 
+            cursor: pointer; font-weight: bold; transition: 0.3s; width: 90%; max-width: 500px;
         }
         .btn-confirm:active { transform: scale(0.95); }
         
@@ -86,6 +86,7 @@
         <button class="tab-btn" onclick="mostrarSeccion('heladas', this)">🥤 Bebidas Frías</button>
     </div>
 
+    <!-- SECCIÓN COMIDA -->
     <div id="comida" class="seccion-productos active menu-container">
         <div class="product-card">
             <h3>Hamburguesa Especial</h3>
@@ -107,8 +108,10 @@
         </div>
     </div>
 
+    <!-- SECCIÓN BEBIDAS CALIENTES -->
     <div id="calientes" class="seccion-productos menu-container">
         
+        <!-- Americano (2 Tamaños) -->
         <div class="product-card" id="card_americano">
             <h3>Americano</h3>
             <div class="size-selector">
@@ -123,6 +126,7 @@
             </div>
         </div>
 
+        <!-- Espresso (1 Tamaño) -->
         <div class="product-card">
             <h3>Espresso <span style="font-size:14px; color:#888;">(8oz)</span></h3>
             <p>L. 25.00</p>
@@ -133,6 +137,7 @@
             </div>
         </div>
 
+        <!-- Cortadito (1 Tamaño) -->
         <div class="product-card">
             <h3>Cortadito <span style="font-size:14px; color:#888;">(8oz)</span></h3>
             <p>L. 25.00</p>
@@ -143,6 +148,7 @@
             </div>
         </div>
 
+        <!-- Capuchino (2 Tamaños) -->
         <div class="product-card" id="card_capuchino">
             <h3>Capuchino</h3>
             <div class="size-selector">
@@ -157,6 +163,7 @@
             </div>
         </div>
 
+        <!-- Latte (2 Tamaños) -->
         <div class="product-card" id="card_latte">
             <h3>Latte</h3>
             <div class="size-selector">
@@ -171,6 +178,7 @@
             </div>
         </div>
 
+        <!-- Café Bombón (1 Tamaño) -->
         <div class="product-card">
             <h3>Café Bombón <span style="font-size:14px; color:#888;">(8oz)</span></h3>
             <p>L. 65.00</p>
@@ -181,6 +189,7 @@
             </div>
         </div>
 
+        <!-- Mocha (1 Tamaño) -->
         <div class="product-card">
             <h3>Mocha <span style="font-size:14px; color:#888;">(12oz)</span></h3>
             <p>L. 70.00</p>
@@ -191,6 +200,7 @@
             </div>
         </div>
 
+        <!-- Chai Caliente (2 Tamaños) -->
         <div class="product-card" id="card_chaicaliente">
             <h3>Chai Caliente</h3>
             <div class="size-selector">
@@ -205,6 +215,7 @@
             </div>
         </div>
 
+        <!-- Pinol (2 Tamaños) -->
         <div class="product-card" id="card_pinol">
             <h3>Pinol</h3>
             <div class="size-selector">
@@ -219,6 +230,7 @@
             </div>
         </div>
 
+        <!-- Chocolate (2 Tamaños) -->
         <div class="product-card" id="card_chocolate">
             <h3>Chocolate</h3>
             <div class="size-selector">
@@ -233,6 +245,7 @@
             </div>
         </div>
 
+        <!-- Té Sabores (1 Tamaño) -->
         <div class="product-card">
             <h3>Té (Sabores) <span style="font-size:14px; color:#888;">(12oz)</span></h3>
             <p>L. 25.00</p>
@@ -243,6 +256,7 @@
             </div>
         </div>
 
+        <!-- Tisanas (1 Tamaño) -->
         <div class="product-card">
             <h3>Tisanas <span style="font-size:14px; color:#888;">(12oz)</span></h3>
             <p>L. 75.00</p>
@@ -254,6 +268,7 @@
         </div>
     </div>
 
+    <!-- SECCIÓN BEBIDAS FRÍAS -->
     <div id="heladas" class="seccion-productos menu-container">
         <div class="product-card"> <h3>Batido Fresa <span style="font-size:12px; color:#888;">(16oz)</span></h3><p>L. 65.00</p> <div class="controls"> <button type="button" class="btn-qty" onclick="cambiarSimple('f_bat_fre', -1)">-</button> <b id="f_bat_fre" style="font-size: 24px;">0</b> <button type="button" class="btn-qty" onclick="cambiarSimple('f_bat_fre', 1)">+</button> </div> </div>
         <div class="product-card"> <h3>Batido Banano <span style="font-size:12px; color:#888;">(16oz)</span></h3><p>L. 65.00</p> <div class="controls"> <button type="button" class="btn-qty" onclick="cambiarSimple('f_bat_ban', -1)">-</button> <b id="f_bat_ban" style="font-size: 24px;">0</b> <button type="button" class="btn-qty" onclick="cambiarSimple('f_bat_ban', 1)">+</button> </div> </div>
@@ -278,6 +293,7 @@
         <div class="product-card"> <h3>Granita de Café <span style="font-size:12px; color:#888;">(16oz)</span></h3><p>L. 60.00</p> <div class="controls"> <button type="button" class="btn-qty" onclick="cambiarSimple('f_gran', -1)">-</button> <b id="f_gran" style="font-size: 24px;">0</b> <button type="button" class="btn-qty" onclick="cambiarSimple('f_gran', 1)">+</button> </div> </div>
     </div>
 
+    <!-- SECCIÓN DE CIERRE DE PEDIDO (Alineada de forma natural abajo) -->
     <div class="footer-order">
         <div class="total-container">Total a Pagar: L. <span id="total-general">0.00</span></div>
         <input type="text" id="observaciones" class="obs-input" placeholder="¿Observaciones? (Ej: Leche descremada, sin azúcar...)">
@@ -296,7 +312,6 @@
 </div>
 
 <script>
-    // DICCIONARIO MAPEADO CON PRECIOS PARA EL VÍNCULO MATEMÁTICO
     const MENU = {
         'p_comida1': { nombre: 'Hamburguesa Especial', precio: 150 },
         'p_comida2': { nombre: 'Pizza Personal', precio: 120 },
@@ -320,7 +335,7 @@
         'c_tis12': { nombre: 'Tisanas 12oz', precio: 75 },
         'f_bat_fre': { nombre: 'Batido Fresa 16oz', precio: 65 },
         'f_bat_ban': { nombre: 'Batido Banano 16oz', precio: 65 },
-        'f_bat_cho': { font_name: 'Batido Chocolate 16oz', precio: 65 },
+        'f_bat_cho': { nombre: 'Batido Chocolate 16oz', precio: 65 },
         'f_sm_man': { nombre: 'Smoothie Mango 16oz', precio: 65 },
         'f_sm_fre': { nombre: 'Smoothie Fresa 16oz', precio: 65 },
         'f_sm_mv': { nombre: 'Smoothie Manzana V. 16oz', precio: 65 },
@@ -360,7 +375,6 @@
         window.scrollTo(0,0);
     }
 
-    // Calcula de forma masiva sumando el (Contador * Precio) de cada ID registrado
     function calcularTotalGeneral() {
         let acumulado = 0;
         for (let id in MENU) {
@@ -378,7 +392,7 @@
         if (!elemento) return;
         let nuevo = parseInt(elemento.innerText) + valor;
         elemento.innerText = nuevo < 0 ? 0 : nuevo;
-        calcularTotalGeneral(); // Recalcula al modificar cantidades
+        calcularTotalGeneral();
     }
 
     function seleccionarTamano(cardId, tamano, precioTexto) {
@@ -400,7 +414,7 @@
         
         let nuevo = parseInt(elementoContador.innerText) + valor;
         elementoContador.innerText = nuevo < 0 ? 0 : nuevo;
-        calcularTotalGeneral(); // Recalcula al modificar cantidades
+        calcularTotalGeneral();
     }
 
     async function enviarPedido() {
@@ -410,8 +424,7 @@
             if (elemento) {
                 let cant = elemento.innerText;
                 if(parseInt(cant) > 0) {
-                    // Si el objeto tiene un "nombre" lo saca directamente, si no saca el alternativo
-                    let nombreItem = MENU[id].nombre ? MENU[id].nombre : 'Batido Chocolate 16oz';
+                    let nombreItem = MENU[id].nombre;
                     detalle += nombreItem + " (" + cant + "), ";
                 }
             }
