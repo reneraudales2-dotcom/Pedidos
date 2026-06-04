@@ -419,13 +419,16 @@
 
     async function enviarPedido() {
         let detalle = "";
+        let acumulado = 0; // Variable para sumar el total numérico
+
         for (let id in MENU) {
             const elemento = document.getElementById(id);
             if (elemento) {
-                let cant = elemento.innerText;
-                if(parseInt(cant) > 0) {
+                let cant = parseInt(elemento.innerText);
+                if(cant > 0) {
                     let nombreItem = MENU[id].nombre;
                     detalle += nombreItem + " (" + cant + "), ";
+                    acumulado += cant * MENU[id].precio; // Sumatoria de precios
                 }
             }
         }
@@ -438,10 +441,16 @@
         const obs = document.getElementById('observaciones').value;
         const orden = Math.floor(Math.random() * 90) + 10;
         
+        // Formateamos el total para que aparezca como moneda
+        const totalTexto = "L. " + acumulado.toFixed(2);
+
         const formData = new FormData();
         formData.append("entry.894611180", detalle);
         formData.append("entry.1139720569", orden);
         formData.append("entry.1093917841", obs);
+        
+        // Usamos el ID que encontraste para enviar el total a pagar
+        formData.append("entry.801011885", totalTexto); 
 
         fetch("https://docs.google.com/forms/d/1_XJMvDDZEmWozeLuPPqkpL7ytOV6bg8X5iH1beyeYWE/formResponse", {
             method: "POST",
