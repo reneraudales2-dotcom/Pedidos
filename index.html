@@ -25,6 +25,18 @@
             gap: 20px; padding: 20px; max-width: 1200px; margin: auto; 
         }
         .product-card { background: white; border-radius: 20px; padding: 20px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        
+        /* Control de Imágenes del Menú */
+        .product-img {
+            width: 100%;
+            max-width: 180px;
+            height: 180px;
+            object-fit: cover; /* Corta la imagen en cuadrado perfecto sin deformarla */
+            border-radius: 15px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+        }
+
         .product-card h3 { margin: 10px 0 5px 0; font-size: 18px; color: #333; }
         
         /* Selector de Tamaño */
@@ -50,7 +62,7 @@
             border-radius: 50%; cursor: pointer; font-size: 20px; font-weight: bold;
         }
 
-        /* Apartado de Cierre (Abajo del todo, NO fijo) */
+        /* Apartado de Cierre (Abajo del todo) */
         .footer-order { 
             background: white; padding: 30px 20px; text-align: center; 
             box-shadow: 0 -2px 15px rgba(0,0,0,0.05); margin: 30px auto 0 auto;
@@ -86,9 +98,9 @@
         <button class="tab-btn" onclick="mostrarSeccion('heladas', this)">🥤 Bebidas Frías</button>
     </div>
 
-    <!-- SECCIÓN COMIDA -->
     <div id="comida" class="seccion-productos active menu-container">
         <div class="product-card">
+            <img class="product-img" src="placeholder-comida.jpg" alt="Hamburguesa">
             <h3>Hamburguesa Especial</h3>
             <p>L. 150.00</p>
             <div class="controls">
@@ -98,6 +110,7 @@
             </div>
         </div>
         <div class="product-card">
+            <img class="product-img" src="placeholder-comida.jpg" alt="Pizza">
             <h3>Pizza Personal</h3>
             <p>L. 120.00</p>
             <div class="controls">
@@ -108,11 +121,10 @@
         </div>
     </div>
 
-    <!-- SECCIÓN BEBIDAS CALIENTES -->
     <div id="calientes" class="seccion-productos menu-container">
         
-        <!-- Americano (2 Tamaños) -->
         <div class="product-card" id="card_americano">
+            <img class="product-img" src="americano.jpg" alt="Americano">
             <h3>Americano</h3>
             <div class="size-selector">
                 <button type="button" class="size-btn selected" onclick="seleccionarTamano('card_americano', '8oz', 'L. 35.00')">8oz</button>
@@ -126,8 +138,8 @@
             </div>
         </div>
 
-        <!-- Espresso (1 Tamaño) -->
         <div class="product-card">
+            <img class="product-img" src="espresso.jpg" alt="Espresso">
             <h3>Espresso <span style="font-size:14px; color:#888;">(8oz)</span></h3>
             <p>L. 25.00</p>
             <div class="controls">
@@ -137,9 +149,8 @@
             </div>
         </div>
 
-        <!-- Cortadito (1 Tamaño) -->
         <div class="product-card">
-            <h3>Cortadito <span style="font-size:14px; color:#888;">(8oz)</span></h3>
+            <img class="product-img" src="placeholder-caliente.jpg" alt="Cortadito"> <h3>Cortadito <span style="font-size:14px; color:#888;">(8oz)</span></h3>
             <p>L. 25.00</p>
             <div class="controls">
                 <button type="button" class="btn-qty" onclick="cambiarSimple('c_cort8', -1)">-</button>
@@ -148,8 +159,8 @@
             </div>
         </div>
 
-        <!-- Capuchino (2 Tamaños) -->
         <div class="product-card" id="card_capuchino">
+            <img class="product-img" src="capuchino.jpg" alt="Capuchino">
             <h3>Capuchino</h3>
             <div class="size-selector">
                 <button type="button" class="size-btn selected" onclick="seleccionarTamano('card_capuchino', '8oz', 'L. 60.00')">8oz</button>
@@ -163,8 +174,8 @@
             </div>
         </div>
 
-        <!-- Latte (2 Tamaños) -->
         <div class="product-card" id="card_latte">
+            <img class="product-img" src="latte.jpg" alt="Latte">
             <h3>Latte</h3>
             <div class="size-selector">
                 <button type="button" class="size-btn selected" onclick="seleccionarTamano('card_latte', '8oz', 'L. 60.00')">8oz</button>
@@ -178,8 +189,8 @@
             </div>
         </div>
 
-        <!-- Café Bombón (1 Tamaño) -->
         <div class="product-card">
+            <img class="product-img" src="bombón.webp" alt="Café Bombón">
             <h3>Café Bombón <span style="font-size:14px; color:#888;">(8oz)</span></h3>
             <p>L. 65.00</p>
             <div class="controls">
@@ -189,8 +200,8 @@
             </div>
         </div>
 
-        <!-- Mocha (1 Tamaño) -->
         <div class="product-card">
+            <img class="product-img" src="mocha.jpg" alt="Mocha">
             <h3>Mocha <span style="font-size:14px; color:#888;">(12oz)</span></h3>
             <p>L. 70.00</p>
             <div class="controls">
@@ -200,8 +211,8 @@
             </div>
         </div>
 
-        <!-- Chai Caliente (2 Tamaños) -->
         <div class="product-card" id="card_chaicaliente">
+            <img class="product-img" src="chai.jfif" alt="Chai Caliente">
             <h3>Chai Caliente</h3>
             <div class="size-selector">
                 <button type="button" class="size-btn selected" onclick="seleccionarTamano('card_chaicaliente', '8oz', 'L. 60.00')">8oz</button>
@@ -215,8 +226,8 @@
             </div>
         </div>
 
-        <!-- Pinol (2 Tamaños) -->
         <div class="product-card" id="card_pinol">
+            <img class="product-img" src="pinol.jpg" alt="Pinol">
             <h3>Pinol</h3>
             <div class="size-selector">
                 <button type="button" class="size-btn selected" onclick="seleccionarTamano('card_pinol', '8oz', 'L. 55.00')">8oz</button>
@@ -230,8 +241,8 @@
             </div>
         </div>
 
-        <!-- Chocolate (2 Tamaños) -->
         <div class="product-card" id="card_chocolate">
+            <img class="product-img" src="chocolate.jpg" alt="Chocolate">
             <h3>Chocolate</h3>
             <div class="size-selector">
                 <button type="button" class="size-btn selected" onclick="seleccionarTamano('card_chocolate', '8oz', 'L. 60.00')">8oz</button>
@@ -245,8 +256,8 @@
             </div>
         </div>
 
-        <!-- Té Sabores (1 Tamaño) -->
         <div class="product-card">
+            <img class="product-img" src="té.jpg" alt="Té Sabores">
             <h3>Té (Sabores) <span style="font-size:14px; color:#888;">(12oz)</span></h3>
             <p>L. 25.00</p>
             <div class="controls">
@@ -256,8 +267,8 @@
             </div>
         </div>
 
-        <!-- Tisanas (1 Tamaño) -->
         <div class="product-card">
+            <img class="product-img" src="tisanas.jpg" alt="Tisanas"> 
             <h3>Tisanas <span style="font-size:14px; color:#888;">(12oz)</span></h3>
             <p>L. 75.00</p>
             <div class="controls">
@@ -268,32 +279,30 @@
         </div>
     </div>
 
-    <!-- SECCIÓN BEBIDAS FRÍAS -->
     <div id="heladas" class="seccion-productos menu-container">
-        <div class="product-card"> <h3>Batido Fresa <span style="font-size:12px; color:#888;">(16oz)</span></h3><p>L. 65.00</p> <div class="controls"> <button type="button" class="btn-qty" onclick="cambiarSimple('f_bat_fre', -1)">-</button> <b id="f_bat_fre" style="font-size: 24px;">0</b> <button type="button" class="btn-qty" onclick="cambiarSimple('f_bat_fre', 1)">+</button> </div> </div>
-        <div class="product-card"> <h3>Batido Banano <span style="font-size:12px; color:#888;">(16oz)</span></h3><p>L. 65.00</p> <div class="controls"> <button type="button" class="btn-qty" onclick="cambiarSimple('f_bat_ban', -1)">-</button> <b id="f_bat_ban" style="font-size: 24px;">0</b> <button type="button" class="btn-qty" onclick="cambiarSimple('f_bat_ban', 1)">+</button> </div> </div>
-        <div class="product-card"> <h3>Batido Chocolate <span style="font-size:12px; color:#888;">(16oz)</span></h3><p>L. 65.00</p> <div class="controls"> <button type="button" class="btn-qty" onclick="cambiarSimple('f_bat_cho', -1)">-</button> <b id="f_bat_cho" style="font-size: 24px;">0</b> <button type="button" class="btn-qty" onclick="cambiarSimple('f_bat_cho', 1)">+</button> </div> </div>
-        <div class="product-card"> <h3>Smoothie Mango <span style="font-size:12px; color:#888;">(16oz)</span></h3><p>L. 65.00</p> <div class="controls"> <button type="button" class="btn-qty" onclick="cambiarSimple('f_sm_man', -1)">-</button> <b id="f_sm_man" style="font-size: 24px;">0</b> <button type="button" class="btn-qty" onclick="cambiarSimple('f_sm_man', 1)">+</button> </div> </div>
-        <div class="product-card"> <h3>Smoothie Fresa <span style="font-size:12px; color:#888;">(16oz)</span></h3><p>L. 65.00</p> <div class="controls"> <button type="button" class="btn-qty" onclick="cambiarSimple('f_sm_fre', -1)">-</button> <b id="f_sm_fre" style="font-size: 24px;">0</b> <button type="button" class="btn-qty" onclick="cambiarSimple('f_sm_fre', 1)">+</button> </div> </div>
-        <div class="product-card"> <h3>Smoothie Manzana Verde <span style="font-size:12px; color:#888;">(16oz)</span></h3><p>L. 65.00</p> <div class="controls"> <button type="button" class="btn-qty" onclick="cambiarSimple('f_sm_mv', -1)">-</button> <b id="f_sm_mv" style="font-size: 24px;">0</b> <button type="button" class="btn-qty" onclick="cambiarSimple('f_sm_mv', 1)">+</button> </div> </div>
-        <div class="product-card"> <h3>Smoothie Mora Azul <span style="font-size:12px; color:#888;">(16oz)</span></h3><p>L. 65.00</p> <div class="controls"> <button type="button" class="btn-qty" onclick="cambiarSimple('f_sm_ma', -1)">-</button> <b id="f_sm_ma" style="font-size: 24px;">0</b> <button type="button" class="btn-qty" onclick="cambiarSimple('f_sm_ma', 1)">+</button> </div> </div>
-        <div class="product-card"> <h3>Smoothie Piña Colada <span style="font-size:12px; color:#888;">(16oz)</span></h3><p>L. 65.00</p> <div class="controls"> <button type="button" class="btn-qty" onclick="cambiarSimple('f_sm_pc', -1)">-</button> <b id="f_sm_pc" style="font-size: 24px;">0</b> <button type="button" class="btn-qty" onclick="cambiarSimple('f_sm_pc', 1)">+</button> </div> </div>
-        <div class="product-card"> <h3>Smoothie Sandía <span style="font-size:12px; color:#888;">(16oz)</span></h3><p>L. 65.00</p> <div class="controls"> <button type="button" class="btn-qty" onclick="cambiarSimple('f_sm_san', -1)">-</button> <b id="f_sm_san" style="font-size: 24px;">0</b> <button type="button" class="btn-qty" onclick="cambiarSimple('f_sm_san', 1)">+</button> </div> </div>
-        <div class="product-card"> <h3>Smoothie Maracuyá <span style="font-size:12px; color:#888;">(16oz)</span></h3><p>L. 65.00</p> <div class="controls"> <button type="button" class="btn-qty" onclick="cambiarSimple('f_sm_mar', -1)">-</button> <b id="f_sm_mar" style="font-size: 24px;">0</b> <button type="button" class="btn-qty" onclick="cambiarSimple('f_sm_mar', 1)">+</button> </div> </div>
-        <div class="product-card"> <h3>Limón con Fresa/Menta <span style="font-size:12px; color:#888;">(16oz)</span></h3><p>L. 70.00</p> <div class="controls"> <button type="button" class="btn-qty" onclick="cambiarSimple('f_sm_lfm', -1)">-</button> <b id="f_sm_lfm" style="font-size: 24px;">0</b> <button type="button" class="btn-qty" onclick="cambiarSimple('f_sm_lfm', 1)">+</button> </div> </div>
-        <div class="product-card"> <h3>Limonada Menta/Fresa <span style="font-size:12px; color:#888;">(16oz)</span></h3><p>L. 50.00</p> <div class="controls"> <button type="button" class="btn-qty" onclick="cambiarSimple('f_lim50', -1)">-</button> <b id="f_lim50" style="font-size: 24px;">0</b> <button type="button" class="btn-qty" onclick="cambiarSimple('f_lim50', 1)">+</button> </div> </div>
-        <div class="product-card"> <h3>Frappé de Oreo <span style="font-size:12px; color:#888;">(16oz)</span></h3><p>L. 75.00</p> <div class="controls"> <button type="button" class="btn-qty" onclick="cambiarSimple('f_fr_oreo', -1)">-</button> <b id="f_fr_oreo" style="font-size: 24px;">0</b> <button type="button" class="btn-qty" onclick="cambiarSimple('f_fr_oreo', 1)">+</button> </div> </div>
-        <div class="product-card"> <h3>Iced Latte <span style="font-size:12px; color:#888;">(16oz)</span></h3><p>L. 65.00</p> <div class="controls"> <button type="button" class="btn-qty" onclick="cambiarSimple('f_ic_lat', -1)">-</button> <b id="f_ic_lat" style="font-size: 24px;">0</b> <button type="button" class="btn-qty" onclick="cambiarSimple('f_ic_lat', 1)">+</button> </div> </div>
-        <div class="product-card"> <h3>Iced Caramel Latte <span style="font-size:12px; color:#888;">(16oz)</span></h3><p>L. 70.00</p> <div class="controls"> <button type="button" class="btn-qty" onclick="cambiarSimple('f_ic_car', -1)">-</button> <b id="f_ic_car" style="font-size: 24px;">0</b> <button type="button" class="btn-qty" onclick="cambiarSimple('f_ic_car', 1)">+</button> </div> </div>
-        <div class="product-card"> <h3>Iced Caramel Oreo <span style="font-size:12px; color:#888;">(16oz)</span></h3><p>L. 70.00</p> <div class="controls"> <button type="button" class="btn-qty" onclick="cambiarSimple('f_ic_or', -1)">-</button> <b id="f_ic_or" style="font-size: 24px;">0</b> <button type="button" class="btn-qty" onclick="cambiarSimple('f_ic_or', 1)">+</button> </div> </div>
-        <div class="product-card"> <h3>Chai Frío <span style="font-size:12px; color:#888;">(16oz)</span></h3><p>L. 70.00</p> <div class="controls"> <button type="button" class="btn-qty" onclick="cambiarSimple('f_chai', -1)">-</button> <b id="f_chai" style="font-size: 24px;">0</b> <button type="button" class="btn-qty" onclick="cambiarSimple('f_chai', 1)">+</button> </div> </div>
-        <div class="product-card"> <h3>Té Frío <span style="font-size:12px; color:#888;">(16oz)</span></h3><p>L. 50.00</p> <div class="controls"> <button type="button" class="btn-qty" onclick="cambiarSimple('f_te', -1)">-</button> <b id="f_te" style="font-size: 24px;">0</b> <button type="button" class="btn-qty" onclick="cambiarSimple('f_te', 1)">+</button> </div> </div>
-        <div class="product-card"> <h3>Pinolita <span style="font-size:12px; color:#888;">(16oz)</span></h3><p>L. 45.00</p> <div class="controls"> <button type="button" class="btn-qty" onclick="cambiarSimple('f_pin', -1)">-</button> <b id="f_pin" style="font-size: 24px;">0</b> <button type="button" class="btn-qty" onclick="cambiarSimple('f_pin', 1)">+</button> </div> </div>
-        <div class="product-card"> <h3>Jugos <span style="font-size:12px; color:#888;">(16oz)</span></h3><p>L. 50.00</p> <div class="controls"> <button type="button" class="btn-qty" onclick="cambiarSimple('f_jug', -1)">-</button> <b id="f_jug" style="font-size: 24px;">0</b> <button type="button" class="btn-qty" onclick="cambiarSimple('f_jug', 1)">+</button> </div> </div>
-        <div class="product-card"> <h3>Granita de Café <span style="font-size:12px; color:#888;">(16oz)</span></h3><p>L. 60.00</p> <div class="controls"> <button type="button" class="btn-qty" onclick="cambiarSimple('f_gran', -1)">-</button> <b id="f_gran" style="font-size: 24px;">0</b> <button type="button" class="btn-qty" onclick="cambiarSimple('f_gran', 1)">+</button> </div> </div>
+        <div class="product-card"> <img class="product-img" src="placeholder-frio.jpg" alt="Batido Fresa"> <h3>Batido Fresa <span style="font-size:12px; color:#888;">(16oz)</span></h3><p>L. 65.00</p> <div class="controls"> <button type="button" class="btn-qty" onclick="cambiarSimple('f_bat_fre', -1)">-</button> <b id="f_bat_fre" style="font-size: 24px;">0</b> <button type="button" class="btn-qty" onclick="cambiarSimple('f_bat_fre', 1)">+</button> </div> </div>
+        <div class="product-card"> <img class="product-img" src="placeholder-frio.jpg" alt="Batido Banano"> <h3>Batido Banano <span style="font-size:12px; color:#888;">(16oz)</span></h3><p>L. 65.00</p> <div class="controls"> <button type="button" class="btn-qty" onclick="cambiarSimple('f_bat_ban', -1)">-</button> <b id="f_bat_ban" style="font-size: 24px;">0</b> <button type="button" class="btn-qty" onclick="cambiarSimple('f_bat_ban', 1)">+</button> </div> </div>
+        <div class="product-card"> <img class="product-img" src="placeholder-frio.jpg" alt="Batido Chocolate"> <h3>Batido Chocolate <span style="font-size:12px; color:#888;">(16oz)</span></h3><p>L. 65.00</p> <div class="controls"> <button type="button" class="btn-qty" onclick="cambiarSimple('f_bat_cho', -1)">-</button> <b id="f_bat_cho" style="font-size: 24px;">0</b> <button type="button" class="btn-qty" onclick="cambiarSimple('f_bat_cho', 1)">+</button> </div> </div>
+        <div class="product-card"> <img class="product-img" src="placeholder-frio.jpg" alt="Smoothie Mango"> <h3>Smoothie Mango <span style="font-size:12px; color:#888;">(16oz)</span></h3><p>L. 65.00</p> <div class="controls"> <button type="button" class="btn-qty" onclick="cambiarSimple('f_sm_man', -1)">-</button> <b id="f_sm_man" style="font-size: 24px;">0</b> <button type="button" class="btn-qty" onclick="cambiarSimple('f_sm_man', 1)">+</button> </div> </div>
+        <div class="product-card"> <img class="product-img" src="placeholder-frio.jpg" alt="Smoothie Fresa"> <h3>Smoothie Fresa <span style="font-size:12px; color:#888;">(16oz)</span></h3><p>L. 65.00</p> <div class="controls"> <button type="button" class="btn-qty" onclick="cambiarSimple('f_sm_fre', -1)">-</button> <b id="f_sm_fre" style="font-size: 24px;">0</b> <button type="button" class="btn-qty" onclick="cambiarSimple('f_sm_fre', 1)">+</button> </div> </div>
+        <div class="product-card"> <img class="product-img" src="placeholder-frio.jpg" alt="Smoothie Manzana Verde"> <h3>Smoothie Manzana Verde <span style="font-size:12px; color:#888;">(16oz)</span></h3><p>L. 65.00</p> <div class="controls"> <button type="button" class="btn-qty" onclick="cambiarSimple('f_sm_mv', -1)">-</button> <b id="f_sm_mv" style="font-size: 24px;">0</b> <button type="button" class="btn-qty" onclick="cambiarSimple('f_sm_mv', 1)">+</button> </div> </div>
+        <div class="product-card"> <img class="product-img" src="placeholder-frio.jpg" alt="Smoothie Mora Azul"> <h3>Smoothie Mora Azul <span style="font-size:12px; color:#888;">(16oz)</span></h3><p>L. 65.00</p> <div class="controls"> <button type="button" class="btn-qty" onclick="cambiarSimple('f_sm_ma', -1)">-</button> <b id="f_sm_ma" style="font-size: 24px;">0</b> <button type="button" class="btn-qty" onclick="cambiarSimple('f_sm_ma', 1)">+</button> </div> </div>
+        <div class="product-card"> <img class="product-img" src="placeholder-frio.jpg" alt="Smoothie Piña Colada"> <h3>Smoothie Piña Colada <span style="font-size:12px; color:#888;">(16oz)</span></h3><p>L. 65.00</p> <div class="controls"> <button type="button" class="btn-qty" onclick="cambiarSimple('f_sm_pc', -1)">-</button> <b id="f_sm_pc" style="font-size: 24px;">0</b> <button type="button" class="btn-qty" onclick="cambiarSimple('f_sm_pc', 1)">+</button> </div> </div>
+        <div class="product-card"> <img class="product-img" src="placeholder-frio.jpg" alt="Smoothie Sandía"> <h3>Smoothie Sandía <span style="font-size:12px; color:#888;">(16oz)</span></h3><p>L. 65.00</p> <div class="controls"> <button type="button" class="btn-qty" onclick="cambiarSimple('f_sm_san', -1)">-</button> <b id="f_sm_san" style="font-size: 24px;">0</b> <button type="button" class="btn-qty" onclick="cambiarSimple('f_sm_san', 1)">+</button> </div> </div>
+        <div class="product-card"> <img class="product-img" src="placeholder-frio.jpg" alt="Smoothie Maracuyá"> <h3>Smoothie Maracuyá <span style="font-size:12px; color:#888;">(16oz)</span></h3><p>L. 65.00</p> <div class="controls"> <button type="button" class="btn-qty" onclick="cambiarSimple('f_sm_mar', -1)">-</button> <b id="f_sm_mar" style="font-size: 24px;">0</b> <button type="button" class="btn-qty" onclick="cambiarSimple('f_sm_mar', 1)">+</button> </div> </div>
+        <div class="product-card"> <img class="product-img" src="placeholder-frio.jpg" alt="Limón Fresa Menta"> <h3>Limón con Fresa/Menta <span style="font-size:12px; color:#888;">(16oz)</span></h3><p>L. 70.00</p> <div class="controls"> <button type="button" class="btn-qty" onclick="cambiarSimple('f_sm_lfm', -1)">-</button> <b id="f_sm_lfm" style="font-size: 24px;">0</b> <button type="button" class="btn-qty" onclick="cambiarSimple('f_sm_lfm', 1)">+</button> </div> </div>
+        <div class="product-card"> <img class="product-img" src="placeholder-frio.jpg" alt="Limonada Menta Fresa"> <h3>Limonada Menta/Fresa <span style="font-size:12px; color:#888;">(16oz)</span></h3><p>L. 50.00</p> <div class="controls"> <button type="button" class="btn-qty" onclick="cambiarSimple('f_lim50', -1)">-</button> <b id="f_lim50" style="font-size: 24px;">0</b> <button type="button" class="btn-qty" onclick="cambiarSimple('f_lim50', 1)">+</button> </div> </div>
+        <div class="product-card"> <img class="product-img" src="placeholder-frio.jpg" alt="Frappé de Oreo"> <h3>Frappé de Oreo <span style="font-size:12px; color:#888;">(16oz)</span></h3><p>L. 75.00</p> <div class="controls"> <button type="button" class="btn-qty" onclick="cambiarSimple('f_fr_oreo', -1)">-</button> <b id="f_fr_oreo" style="font-size: 24px;">0</b> <button type="button" class="btn-qty" onclick="cambiarSimple('f_fr_oreo', 1)">+</button> </div> </div>
+        <div class="product-card"> <img class="product-img" src="placeholder-frio.jpg" alt="Iced Latte"> <h3>Iced Latte <span style="font-size:12px; color:#888;">(16oz)</span></h3><p>L. 65.00</p> <div class="controls"> <button type="button" class="btn-qty" onclick="cambiarSimple('f_ic_lat', -1)">-</button> <b id="f_ic_lat" style="font-size: 24px;">0</b> <button type="button" class="btn-qty" onclick="cambiarSimple('f_ic_lat', 1)">+</button> </div> </div>
+        <div class="product-card"> <img class="product-img" src="placeholder-frio.jpg" alt="Iced Caramel Latte"> <h3>Iced Caramel Latte <span style="font-size:12px; color:#888;">(16oz)</span></h3><p>L. 70.00</p> <div class="controls"> <button type="button" class="btn-qty" onclick="cambiarSimple('f_ic_car', -1)">-</button> <b id="f_ic_car" style="font-size: 24px;">0</b> <button type="button" class="btn-qty" onclick="cambiarSimple('f_ic_car', 1)">+</button> </div> </div>
+        <div class="product-card"> <img class="product-img" src="placeholder-frio.jpg" alt="Iced Caramel Oreo"> <h3>Iced Caramel Oreo <span style="font-size:12px; color:#888;">(16oz)</span></h3><p>L. 70.00</p> <div class="controls"> <button type="button" class="btn-qty" onclick="cambiarSimple('f_ic_or', -1)">-</button> <b id="f_ic_or" style="font-size: 24px;">0</b> <button type="button" class="btn-qty" onclick="cambiarSimple('f_ic_or', 1)">+</button> </div> </div>
+        <div class="product-card"> <img class="product-img" src="placeholder-frio.jpg" alt="Chai Frío"> <h3>Chai Frío <span style="font-size:12px; color:#888;">(16oz)</span></h3><p>L. 70.00</p> <div class="controls"> <button type="button" class="btn-qty" onclick="cambiarSimple('f_chai', -1)">-</button> <b id="f_chai" style="font-size: 24px;">0</b> <button type="button" class="btn-qty" onclick="cambiarSimple('f_chai', 1)">+</button> </div> </div>
+        <div class="product-card"> <img class="product-img" src="placeholder-frio.jpg" alt="Té Frío"> <h3>Té Frío <span style="font-size:12px; color:#888;">(16oz)</span></h3><p>L. 50.00</p> <div class="controls"> <button type="button" class="btn-qty" onclick="cambiarSimple('f_te', -1)">-</button> <b id="f_te" style="font-size: 24px;">0</b> <button type="button" class="btn-qty" onclick="cambiarSimple('f_te', 1)">+</button> </div> </div>
+        <div class="product-card"> <img class="product-img" src="placeholder-frio.jpg" alt="Pinolita"> <h3>Pinolita <span style="font-size:12px; color:#888;">(16oz)</span></h3><p>L. 45.00</p> <div class="controls"> <button type="button" class="btn-qty" onclick="cambiarSimple('f_pin', -1)">-</button> <b id="f_pin" style="font-size: 24px;">0</b> <button type="button" class="btn-qty" onclick="cambiarSimple('f_pin', 1)">+</button> </div> </div>
+        <div class="product-card"> <img class="product-img" src="placeholder-frio.jpg" alt="Jugos"> <h3>Jugos <span style="font-size:12px; color:#888;">(16oz)</span></h3><p>L. 50.00</p> <div class="controls"> <button type="button" class="btn-qty" onclick="cambiarSimple('f_jug', -1)">-</button> <b id="f_jug" style="font-size: 24px;">0</b> <button type="button" class="btn-qty" onclick="cambiarSimple('f_jug', 1)">+</button> </div> </div>
+        <div class="product-card"> <img class="product-img" src="placeholder-frio.jpg" alt="Granita de Café"> <h3>Granita de Café <span style="font-size:12px; color:#888;">(16oz)</span></h3><p>L. 60.00</p> <div class="controls"> <button type="button" class="btn-qty" onclick="cambiarSimple('f_gran', -1)">-</button> <b id="f_gran" style="font-size: 24px;">0</b> <button type="button" class="btn-qty" onclick="cambiarSimple('f_gran', 1)">+</button> </div> </div>
     </div>
 
-    <!-- SECCIÓN DE CIERRE DE PEDIDO (Alineada de forma natural abajo) -->
     <div class="footer-order">
         <div class="total-container">Total a Pagar: L. <span id="total-general">0.00</span></div>
         <input type="text" id="observaciones" class="obs-input" placeholder="¿Observaciones? (Ej: Leche descremada, sin azúcar...)">
@@ -419,7 +428,7 @@
 
     async function enviarPedido() {
         let detalle = "";
-        let acumulado = 0; // Variable para sumar el total numérico
+        let acumulado = 0;
 
         for (let id in MENU) {
             const elemento = document.getElementById(id);
@@ -428,7 +437,7 @@
                 if(cant > 0) {
                     let nombreItem = MENU[id].nombre;
                     detalle += nombreItem + " (" + cant + "), ";
-                    acumulado += cant * MENU[id].precio; // Sumatoria de precios
+                    acumulado += cant * MENU[id].precio;
                 }
             }
         }
@@ -440,16 +449,12 @@
 
         const obs = document.getElementById('observaciones').value;
         const orden = Math.floor(Math.random() * 90) + 10;
-        
-        // Formateamos el total para que aparezca como moneda
         const totalTexto = "L. " + acumulado.toFixed(2);
 
         const formData = new FormData();
         formData.append("entry.894611180", detalle);
         formData.append("entry.1139720569", orden);
         formData.append("entry.1093917841", obs);
-        
-        // Usamos el ID que encontraste para enviar el total a pagar
         formData.append("entry.801011885", totalTexto); 
 
         fetch("https://docs.google.com/forms/d/1_XJMvDDZEmWozeLuPPqkpL7ytOV6bg8X5iH1beyeYWE/formResponse", {
