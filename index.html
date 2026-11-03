@@ -119,6 +119,8 @@
   .resumen-total { font-size: 24px; font-weight: bold; text-align: right; margin: 16px 0 12px; }
   .resumen-total span { color: var(--verde); }
   .obs-label { display: block; font-weight: bold; margin: 14px 0 6px; }
+  .obs-input.invalido { border: 2px solid #b00020; }
+  .campo-error { color: #b00020; font-size: 14px; font-weight: bold; margin: 6px 0 0; min-height: 18px; }
   .acciones { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
   .acciones .btn-principal { flex: 1 1 200px; }
 
@@ -151,6 +153,10 @@
     <div class="hoja">
       <h2 id="resumen-titulo">Revisa tu pedido</h2>
       <div id="resumen-lineas"></div>
+      <label class="obs-label" for="nombre-cliente">¿A nombre de quién es el pedido? *</label>
+      <input type="text" id="nombre-cliente" class="obs-input" maxlength="40" autocomplete="name"
+             placeholder="Tu nombre" aria-describedby="nombre-error" aria-required="true">
+      <p class="campo-error" id="nombre-error" role="alert"></p>
       <label class="obs-label" for="observaciones">Observaciones</label>
       <input type="text" id="observaciones" class="obs-input" maxlength="200"
              placeholder="Ej: Leche descremada, sin azúcar...">
@@ -166,6 +172,7 @@
 <div id="pantalla-exito">
   <div class="exito-card">
     <h1 style="color: var(--verde); margin: 0 0 10px;">¡Pedido Recibido!</h1>
+    <p id="exito-nombre" style="color: #333; font-size: 20px; font-weight: bold; margin: 0 0 6px;"></p>
     <p style="color: #555; font-size: 18px;">Tu número de orden es:</p>
     <div class="numero-orden" id="num-orden">#--</div>
     <p style="color: #666; font-size: 14px; margin-top: 20px;">Por favor, espera que llamen tu número en barra.</p>
@@ -185,10 +192,15 @@ const CAMPOS = {
   detalle: "entry.894611180",
   orden:   "entry.1139720569",
   obs:     "entry.1093917841",
-  total:   "entry.801011885"
+  total:   "entry.801011885",
+  // Nombre del cliente. Mientras esto esté vacío, el nombre viaja al inicio del campo
+  // de observaciones ("Cliente: Juan | sin azúcar"). Cuando agregues la pregunta
+  // "Nombre" al formulario, pega aquí su código (ej: "entry.123456789"). Ver README.
+  nombre:  ""
 };
 
 const SEGUNDOS_PANTALLA_EXITO = 8;
+const MINUTOS_INACTIVIDAD = 5;   // sin tocar la pantalla, se borra el pedido a medias
 const TIMEOUT_ENVIO_MS = 10000;
 
 // Pestañas. "emoji" se usa como imagen de respaldo si falta la foto.
@@ -530,15 +542,30 @@ async function enviarPedido() {
   const { ls, total } = totales();
   if (!ls.length) { alert('Por favor, selecciona al menos un producto.'); return; }
 
+  const campoNombre = $('nombre-cliente');
+  const nombre = campoNombre.value.replace(/\s+/g, ' ').trim();
+  if (nombre.length < 2) {
+    campoNombre.classList.add('invalido');
+    $('nombre-error').textContent = 'Escribe tu nombre para poder llamarte cuando esté listo.';
+    campoNombre.focus();
+    return;
+  }
+
   const detalle = ls.map(l =>
     l.nombre + ' (' + l.cant + ')' + (l.nota ? ' [' + l.nota + ']' : '')
   ).join(', ');
   const orden = proximaOrden();
+  const obs = $('observaciones').value.trim();
 
   const formData = new FormData();
   formData.append(CAMPOS.detalle, detalle);
   formData.append(CAMPOS.orden, orden.texto);
-  formData.append(CAMPOS.obs, $('observaciones').value.trim());
+  if (CAMPOS.nombre) {
+    formData.append(CAMPOS.nombre, nombre);
+    formData.append(CAMPOS.obs, obs);
+  } else {
+    formData.append(CAMPOS.obs, 'Cliente: ' + nombre + (obs ? ' | ' + obs : ''));
+  }
   formData.append(CAMPOS.total, money(total));
 
   const btn = $('btn-confirmar');
@@ -566,6 +593,7 @@ async function enviarPedido() {
   $('pantalla-pedido').style.display = 'none';
   $('pantalla-exito').style.display = 'block';
   $('num-orden').textContent = '#' + orden.texto;
+  $('exito-nombre').textContent = 'Gracias, ' + nombre + '.';
   window.scrollTo(0, 0);
   setTimeout(() => location.reload(), SEGUNDOS_PANTALLA_EXITO * 1000);
 }
@@ -592,8 +620,30 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Escape' && $('overlay').classList.contains('open') && !estado.enviando) cerrarResumen();
 });
 
+// Al escribir el nombre se quita el aviso de error
+$('nombre-cliente').addEventListener('input', () => {
+  $('nombre-cliente').classList.remove('invalido');
+  $('nombre-error').textContent = '';
+});
+
+/* =====================================================================
+   INACTIVIDAD: en un quiosco compartido, si alguien deja el pedido a medias
+   y se va, la pantalla se reinicia para que el siguiente cliente no lo vea.
+   ===================================================================== */
+let temporizadorInactividad;
+function reiniciarInactividad() {
+  clearTimeout(temporizadorInactividad);
+  temporizadorInactividad = setTimeout(() => {
+    const hayAlgo = Object.keys(estado.cart).length > 0 || $('nombre-cliente').value.trim() !== '';
+    if (hayAlgo && !estado.enviando) location.reload();
+  }, MINUTOS_INACTIVIDAD * 60000);
+}
+['click', 'keydown', 'input', 'touchstart'].forEach(ev =>
+  document.addEventListener(ev, reiniciarInactividad, { passive: true }));
+
 construirMenu();
 actualizarBarra();
+reiniciarInactividad();
 </script>
 </body>
 </html>
