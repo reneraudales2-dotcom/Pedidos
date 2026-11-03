@@ -8,10 +8,23 @@ No necesita servidor ni instalación: es un solo archivo `index.html` más las f
 
 1. El cliente elige productos en las pestañas **Comida**, **Bebidas Calientes** y **Bebidas Frías**.
 2. Abajo siempre ve el total y el botón **VER PEDIDO**.
-3. En el resumen puede ajustar cantidades, indicar el sabor (en productos que lo permiten) y escribir observaciones.
-4. Al confirmar, el pedido se envía al formulario y se muestra el número de orden. La pantalla se reinicia sola a los 8 segundos.
+3. En el resumen puede ajustar cantidades, indicar el sabor (en productos que lo permiten), escribir su **nombre (obligatorio)** y agregar observaciones.
+4. Al confirmar, el pedido se envía al formulario y se muestra el número de orden con un saludo por nombre. La pantalla se reinicia sola a los 8 segundos.
 
 Si falla el internet al enviar, la página avisa y **conserva el pedido** para reintentar.
+
+Si alguien deja el pedido a medias y se aleja, a los 5 minutos sin tocar la pantalla se borra todo (cambia `MINUTOS_INACTIVIDAD` para ajustarlo). Así el siguiente cliente no ve el pedido ni el nombre del anterior.
+
+## Nombre del cliente
+
+El nombre es obligatorio (mínimo 2 letras) para poder llamar al cliente y saber de quién es cada pedido.
+
+- **Mientras no hagas nada en el formulario**, el nombre viaja al inicio de la columna de observaciones: `Cliente: Juan | sin azúcar`. Ya funciona así.
+- **Para tener una columna "Nombre" propia en la hoja:**
+  1. En el Formulario de Google agrega una pregunta de **respuesta corta** llamada `Nombre`.
+  2. En el menú ⋮ del formulario elige **Obtener enlace prellenado**, escribe cualquier texto en `Nombre`, pulsa **Obtener enlace** y cópialo.
+  3. En ese enlace busca `entry.` seguido de números (por ejemplo `entry.123456789=...`). Esos números son el código del campo.
+  4. En `index.html`, dentro de `CAMPOS`, pon `nombre: "entry.123456789"`. Desde ese momento el nombre va en su propia columna y las observaciones quedan limpias.
 
 ## Editar el menú
 
